@@ -1,51 +1,52 @@
-import { Button } from "@/components/ui/button"
-import { Info } from "lucide-react"
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import { Cpu } from "lucide-react";
 
 const Header = () => {
   return (
-    <header className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-gradient-to-r from-cyber-purple to-cyber-teal rounded-lg flex items-center justify-center">
-            <span className="text-cyber-light font-bold text-lg">C</span>
-          </div>
-          <span className="text-2xl font-bold text-foreground">Cyber AI</span>
-        </div>
-        
-        <nav className="hidden md:flex items-center gap-8">
-          <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors">
+    <nav className="relative z-50 border-b border-white/[0.03] backdrop-blur-sm bg-[#020202]/80">
+      <div className="md:px-12 lg:px-24 flex h-20 pr-6 pl-6 items-center justify-between max-w-[1440px] mx-auto">
+        <Link to="/" className="flex items-center gap-3 animate-on-scroll">
+          <Cpu className="w-6 h-6 text-white stroke-[1.5]" />
+          <span className="flex flex-col leading-none">
+            <span className="text-xs font-semibold tracking-[0.15em] uppercase text-white">
+              Saudi Cyber AI
+            </span>
+            <span className="text-[10px] tracking-[0.18em] uppercase text-white/40 mt-1">
+              Made by DSM
+            </span>
+          </span>
+        </Link>
+
+        <div className="hidden md:flex items-center gap-10 animate-on-scroll" style={{ animationDelay: '0.1s' }}>
+          <a href="#features" className="text-[13px] hover:text-white transition-colors text-white/60">
             Features
           </a>
-          <a href="#why" className="text-muted-foreground hover:text-foreground transition-colors">
-            Why Cyber AI
+          <a href="#case-studies" className="text-[13px] hover:text-white transition-colors text-white/60">
+            Case Studies
           </a>
-          <a href="#testing" className="text-muted-foreground hover:text-foreground transition-colors">
-            Testing
+          <a href="#careers" className="text-[13px] hover:text-white transition-colors text-white/60">
+            Careers
           </a>
-          <a href="#testimonials" className="text-muted-foreground hover:text-foreground transition-colors">
-            Testimonials
-          </a>
-          <Link to="/compliance-check" className="text-muted-foreground hover:text-foreground transition-colors">
-            Compliance Check
-          </Link>
-          <Link to="/api-test" className="text-muted-foreground hover:text-foreground transition-colors">
-            API Test
-          </Link>
-        </nav>
+        </div>
 
-        <div className="flex items-center gap-2 group relative">
-          <Button variant="cyber" size="lg" asChild>
-            <Link to="/compliance-check">Try Cyber AI</Link>
-          </Button>
-          <Info className="w-4 h-4 text-muted-foreground group-hover:text-cyber-teal cursor-help transition-colors" />
-          <div className="absolute right-0 top-full mt-2 px-3 py-2 bg-popover border border-border rounded-md text-sm text-popover-foreground opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
-            This is a demonstration of our text compliance AI tool
-          </div>
+        <div className="flex items-center gap-6 animate-on-scroll" style={{ animationDelay: '0.2s' }}>
+          <a href="/login" className="text-[13px] hover:text-white transition-colors hidden sm:block text-white/60">
+            Client Login
+          </a>
+          <Link
+            to="/compliance-check"
+            className="group inline-flex overflow-hidden transition-all duration-300 hover:-translate-y-0.5 rounded-sm pt-[1px] pr-[1px] pb-[1px] pl-[1px] relative items-center justify-center"
+          >
+            <span className="absolute inset-[-100%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_0%,transparent_75%,#ffffff_100%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
+            <span className="absolute inset-0 rounded-sm bg-zinc-800 transition-opacity duration-300 group-hover:opacity-0"></span>
+            <span className="flex items-center justify-center gap-2 transition-colors duration-300 group-hover:text-white text-[11px] font-medium text-zinc-300 tracking-tight bg-black w-full h-full rounded-sm pt-2 pr-4 pb-2 pl-4 relative z-10 uppercase tracking-widest">
+              Audit Request
+            </span>
+          </Link>
         </div>
       </div>
-    </header>
-  )
-}
+    </nav>
+  );
+};
 
-export default Header
+export default Header;

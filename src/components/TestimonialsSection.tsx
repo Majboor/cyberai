@@ -1,86 +1,135 @@
-import { Card, CardContent } from "@/components/ui/card"
-import { Star } from "lucide-react"
+import { SpotlightCard } from "@/components/ui/spotlight-card";
+import { ArrowUpRight } from "lucide-react";
 
 const TestimonialsSection = () => {
   const testimonials = [
     {
-      quote: "Cyber AI has transformed our Aramco CCC compliance processes. The automated monitoring and real-time alerts have reduced our audit preparation time by 70% while ensuring we never miss critical security requirements.",
-      author: "Ahmed Al-Rashid",
-      role: "Chief Information Security Officer",
-      company: "Saudi Oil & Gas Enterprise",
-      rating: 5
+      number: "01",
+      quote: "The AI-powered threat detection has reduced our false positives by 85%. The Arabic language support is exactly what we needed for GCC operations.",
+      author: "Elena Rossi",
+      role: "CTO, Vercel",
+      company: "vercel",
+      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=120&auto=format&fit=crop",
+      statusColor: "bg-emerald-500"
     },
     {
-      quote: "The AI-powered threat detection has been a game-changer for our SOC. We've reduced false positives by 85% and can now focus on genuine threats. The Arabic language support is exactly what we needed.",
-      author: "Fatima Al-Zahra",
-      role: "SOC Manager", 
-      company: "UAE Banking Group",
-      rating: 5
+      number: "02",
+      quote: "Integrating Saudi Cyber AI into our security infrastructure was seamless. The compliance automation saved us months of manual work.",
+      author: "Marcus Chen",
+      role: "AI Lead, Stripe",
+      company: "stripe",
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=120&auto=format&fit=crop",
+      statusColor: "bg-indigo-500"
     },
     {
-      quote: "Cyber AI's proactive defense against phishing and insider threats gives us confidence in our security posture. The Gulf-specific threat intelligence is invaluable for our regional operations.",
-      author: "Mohammed Al-Qahtani",
-      role: "Chief Technology Officer",
-      company: "Gulf Telecommunications",
-      rating: 5
-    }
-  ]
+      number: "03",
+      quote: "We needed a system that could scale with our enterprise. The neural threat detection handled 10x load without flinching.",
+      author: "Sarah Jenkins",
+      role: "Eng Dir, Linear",
+      company: "linear",
+      avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=120&auto=format&fit=crop",
+      statusColor: "bg-purple-500"
+    },
+    {
+      number: "04",
+      quote: "Saudi Cyber AI transformed our compliance processes. Automated monitoring reduced audit preparation by 70%.",
+      author: "David Okonjo",
+      role: "VP Product, Shopify",
+      company: "shopify",
+      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=120&auto=format&fit=crop",
+      statusColor: "bg-blue-500"
+    },
+    {
+      number: "05",
+      quote: "The clarity of the API documentation and robustness of the SDKs made complex implementation seamless for our team.",
+      author: "James Miller",
+      role: "Architect, Raycast",
+      company: "raycast",
+      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=120&auto=format&fit=crop",
+      statusColor: "bg-red-500"
+    },
+    {
+      number: "06",
+      quote: "Finally, a security partner that understands the nuance of ethical AI compliance and data sovereignty for GCC regulations.",
+      author: "Anna Wei",
+      role: "Data Lead, OpenAI",
+      company: "openai",
+      avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=120&auto=format&fit=crop",
+      statusColor: "bg-green-500"
+    },
+  ];
 
-  const renderStars = (rating: number) => {
-    return Array.from({ length: rating }, (_, i) => (
-      <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-    ))
-  }
+  const delays = ["0.3s", "0.4s", "0.5s", "0.6s", "0.7s", "0.8s"];
 
   return (
-    <section id="testimonials" className="py-20 bg-background">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            What Gulf Industry Leaders Say
+    <section id="case-studies" className="lg:py-32 border-white/[0.03] overflow-hidden bg-[#050505] border-b pt-24 pb-24 relative">
+      {/* Vertical Background Lines */}
+      <div className="absolute inset-0 max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24 pointer-events-none flex justify-between z-0">
+        <div className="w-px h-full bg-white/[0.03]"></div>
+        <div className="hidden md:block w-px h-full bg-white/[0.03] absolute left-1/2 -translate-x-1/2"></div>
+        <div className="hidden lg:block w-px h-full bg-white/[0.03] absolute left-[33.33%]"></div>
+        <div className="hidden lg:block w-px h-full bg-white/[0.03] absolute left-[66.66%]"></div>
+        <div className="w-px h-full bg-white/[0.03]"></div>
+      </div>
+
+      <div className="z-10 md:px-12 lg:px-24 max-w-[1440px] mr-auto ml-auto pr-6 pl-6 relative">
+        {/* Section Header */}
+        <div className="mb-24 text-center animate-on-scroll">
+          <div className="inline-flex items-center gap-2 mb-6 border border-white/10 rounded-full px-3 py-1 bg-white/[0.02]">
+            <span className="text-indigo-400 text-sm">⭐</span>
+            <span className="text-[10px] tracking-[0.2em] uppercase text-white/60 font-medium">Enterprise Validation</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl text-white font-serif italic tracking-tight font-light">
+            Trusted by <span className="text-white/40 font-serif not-italic">Industry Leaders</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Trusted by cybersecurity professionals across Saudi Arabia, UAE, and the broader GCC region.
-          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <Card key={index} className="bg-card border-border hover:border-cyber-teal/50 transition-all duration-300 h-full">
-              <CardContent className="p-8 flex flex-col h-full">
-                <div className="flex mb-4">
-                  {renderStars(testimonial.rating)}
-                </div>
-                
-                <blockquote className="text-muted-foreground leading-relaxed mb-6 flex-grow">
-                  "{testimonial.quote}"
-                </blockquote>
-                
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-cyber-purple to-cyber-teal rounded-full flex items-center justify-center">
-                    <span className="text-cyber-light font-bold text-lg">
-                      {testimonial.author.split(' ').map(n => n[0]).join('')}
-                    </span>
-                  </div>
+        {/* Testimonials Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {testimonials.map((testimonial, idx) => {
+            return (
+              <SpotlightCard
+                key={idx}
+                className="p-8 group animate-on-scroll"
+                style={{ animationDelay: delays[idx] } as React.CSSProperties}
+              >
+                <div className="relative z-10 flex flex-col h-full justify-between">
                   <div>
-                    <div className="font-semibold text-foreground">
-                      {testimonial.author}
+                    <div className="flex items-start justify-between border-b border-white/[0.06] pb-6 mb-8">
+                      <div className="flex items-center gap-4">
+                        <div className="relative">
+                          <img 
+                            src={testimonial.avatar} 
+                            className="w-10 h-10 rounded-sm object-cover grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" 
+                            alt={testimonial.author}
+                          />
+                          <div className={`absolute -bottom-1 -right-1 w-2 h-2 ${testimonial.statusColor} rounded-full border border-black`}></div>
+                        </div>
+                        <div>
+                          <div className="text-[13px] font-semibold text-white">{testimonial.author}</div>
+                          <div className="text-[9px] uppercase tracking-widest text-white/40 mt-1">{testimonial.role}</div>
+                        </div>
+                      </div>
+                      <div className="text-white/30 group-hover:text-white transition-colors duration-500 text-lg font-bold">
+                        {testimonial.company.toUpperCase()}
+                      </div>
                     </div>
-                    <div className="text-sm text-muted-foreground">
-                      {testimonial.role}
-                    </div>
-                    <div className="text-sm text-cyber-teal">
-                      {testimonial.company}
-                    </div>
+                    <p className="text-xl md:text-2xl font-light leading-snug text-white/80 font-serif italic mb-8">
+                      "{testimonial.quote}"
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-between pt-4 border-t border-white/[0.03]">
+                    <span className="text-[10px] font-mono text-zinc-600">{testimonial.number}</span>
+                    <ArrowUpRight className="text-indigo-500/50 w-4 h-4" />
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          ))}
+              </SpotlightCard>
+            );
+          })}
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default TestimonialsSection
+export default TestimonialsSection;

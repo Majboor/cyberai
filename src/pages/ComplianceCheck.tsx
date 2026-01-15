@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowDown, Globe, Shield, CheckCircle, AlertTriangle, Loader2, Plus, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { API_BASE_URL } from '@/lib/api-base';
 
 const gccRegions = [
   { id: 'saudi-arabia', name: 'Saudi Arabia' },
@@ -74,7 +75,7 @@ const ComplianceCheck = () => {
       console.log('Region Selection:', regionSelection);
       
       // Create or get existing region
-      const regionResponse = await fetch('https://cyberai.techrealm.pk/regions/', {
+      const regionResponse = await fetch(`${API_BASE_URL}/regions/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: regionName })
@@ -102,7 +103,7 @@ const ComplianceCheck = () => {
       
       // Fetch laws for the region
       console.log('Fetching laws for region:', regionData.region_id);
-      const lawsResponse = await fetch(`https://cyberai.techrealm.pk/regions/${regionData.region_id}/laws?newlaws=false`);
+      const lawsResponse = await fetch(`${API_BASE_URL}/regions/${regionData.region_id}/laws?newlaws=false`);
       
       if (!lawsResponse.ok) {
         throw new Error(`Failed to fetch laws: ${lawsResponse.status}`);
@@ -144,7 +145,7 @@ const ComplianceCheck = () => {
     
     try {
       // Log the exact request being sent
-      const requestUrl = `https://cyberai.techrealm.pk/region/${actualRegionId}/check_compliance`;
+      const requestUrl = `${API_BASE_URL}/region/${actualRegionId}/check_compliance`;
       const requestBody = { urls: allUrls };
       
       console.log('=== COMPLIANCE CHECK REQUEST ===');
@@ -187,7 +188,7 @@ const ComplianceCheck = () => {
       const pollForResults = async () => {
         console.log('Polling for job status:', jobData.job_id);
         
-        const statusResponse = await fetch(`https://cyberai.techrealm.pk/complaince_job/${jobData.job_id}`);
+        const statusResponse = await fetch(`${API_BASE_URL}/complaince_job/${jobData.job_id}`);
         console.log('Status response:', statusResponse.status);
         
         if (!statusResponse.ok) {
@@ -200,7 +201,7 @@ const ComplianceCheck = () => {
         
         if (status.status === 'completed') {
           console.log('Job completed, fetching report...');
-          const reportResponse = await fetch(`https://cyberai.techrealm.pk/complaince_job/${jobData.job_id}/report`);
+          const reportResponse = await fetch(`${API_BASE_URL}/complaince_job/${jobData.job_id}/report`);
           
           if (!reportResponse.ok) {
             throw new Error(`Report fetch failed: ${reportResponse.status}`);
@@ -457,7 +458,7 @@ const ComplianceCheck = () => {
                 <div><strong>Selected Region:</strong> {selectedRegion}</div>
                 <div><strong>Actual Region ID:</strong> {actualRegionId}</div>
                 <div><strong>Region Name:</strong> {selectedRegion === 'custom' ? customLocation : gccRegions.find(r => r.id === selectedRegion)?.name}</div>
-                <div><strong>API Endpoint:</strong> https://cyberai.techrealm.pk/region/{actualRegionId}/check_compliance</div>
+                <div><strong>API Endpoint:</strong> {API_BASE_URL}/region/{actualRegionId}/check_compliance</div>
                 <div><strong>Request Body:</strong></div>
                 <pre className="bg-yellow-100 p-2 rounded text-xs overflow-x-auto">
                   {JSON.stringify({ urls: [url, ...additionalUrls] }, null, 2)}

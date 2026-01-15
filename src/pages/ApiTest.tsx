@@ -24,6 +24,7 @@ import {
   Plus,
   Info
 } from "lucide-react"
+import { API_BASE_URL } from "@/lib/api-base";
 
 const ApiTest = () => {
   const { toast } = useToast()
@@ -31,7 +32,7 @@ const ApiTest = () => {
   const [response, setResponse] = useState<any>(null)
   const [activeEndpoint, setActiveEndpoint] = useState("")
 
-  const BASE_URL = "https://cyberai.techrealm.pk"
+  const BASE_URL = API_BASE_URL
 
   const makeRequest = async (method: string, endpoint: string, body?: any) => {
     setLoading(true)
