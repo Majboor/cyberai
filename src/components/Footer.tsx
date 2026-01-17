@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
-import { Cpu, ArrowUpRight, Facebook, Twitter, Youtube, Instagram } from "lucide-react";
+import { Cpu, ArrowUpRight, Facebook, Linkedin, Youtube, Instagram } from "lucide-react";
 
 const Footer = () => {
   const socialLinks = [
-    { icon: Facebook, label: "Facebook", href: "#", color: "group-hover:text-[#1877F2]" },
-    { icon: Twitter, label: "Twitter", href: "#", color: "group-hover:text-white" },
-    { icon: Youtube, label: "Youtube", href: "#", color: "group-hover:text-[#FF0000]" },
-    { icon: Instagram, label: "Instagram", href: "#", color: "group-hover:text-[#E4405F]" },
+    { icon: Facebook, label: "Facebook", href: "https://www.facebook.com/DigitalSoftwareMarket", color: "group-hover:text-[#1877F2]" },
+    { icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com/company/digitalsoftwaremarket", color: "group-hover:text-[#0A66C2]" },
+    { icon: Instagram, label: "Instagram", href: "https://www.instagram.com/digitalsoftwaremarket/", color: "group-hover:text-[#E4405F]" },
+    { icon: Youtube, label: "YouTube", href: "https://www.youtube.com/@digitalsoftwaremarket", color: "group-hover:text-[#FF0000]" },
   ];
 
   const footerColumns = [
@@ -122,7 +122,7 @@ const Footer = () => {
             <div className="flex flex-col leading-tight">
               <span className="text-[11px] text-white/30">© 2025 SAUDI CYBER AI</span>
               <span className="text-[11px] text-white/30">
-                A cybersecurity initiative by <span className="text-white/50">Digital Software Market</span>
+                A cybersecurity initiative by <span className="text-white/50">techrealm</span>
               </span>
             </div>
           </div>

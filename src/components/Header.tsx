@@ -12,7 +12,7 @@ const Header = () => {
               Saudi Cyber AI
             </span>
             <span className="text-[10px] tracking-[0.18em] uppercase text-white/40 mt-1">
-              Made by DSM
+              Made by techrealm
             </span>
           </span>
         </Link>
