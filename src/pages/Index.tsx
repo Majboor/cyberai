@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import TickerSection from "@/components/TickerSection";
+import ValidationSection from "@/components/ValidationSection";
 import FeaturesGrid from "@/components/FeaturesGrid";
 import MetricsSection from "@/components/MetricsSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
@@ -58,6 +59,7 @@ const Index = () => {
         <main className="z-10 relative pt-[108px]">
           <HeroSection />
           <TickerSection />
+          <ValidationSection />
           <FeaturesGrid />
           <MetricsSection />
           <TestimonialsSection />
