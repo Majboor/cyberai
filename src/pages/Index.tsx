@@ -58,7 +58,7 @@ const Index = () => {
 
         <Header />
 
-        <main className="z-10 relative pt-20">
+        <main className="z-10 relative pt-[108px]">
           <HeroSection />
           <TickerSection />
           <FeaturesGrid />
