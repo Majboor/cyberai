@@ -12,7 +12,7 @@ const Header = () => {
   const activeSection = megaNavSections.find((section) => section.label === activeMenu);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#050505]/95 text-white backdrop-blur-md">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-[#d02030]/25 bg-[#030303]/95 text-white backdrop-blur-md">
       <div className="mx-auto flex h-8 max-w-[1440px] items-center justify-end gap-6 px-5 text-[13px] text-white/62 md:px-10 lg:px-16">
         {utilityLinks.map((label) => (
           <a key={label} href={label === "Blog" ? "/blog" : "/incident-response"} className="hidden transition-colors hover:text-white md:block">
@@ -65,13 +65,13 @@ const Header = () => {
           <div className="hidden items-center gap-3 lg:flex">
             <Link
               to="/compliance-check"
-              className="rounded-lg bg-white px-5 py-3 text-[14px] font-semibold text-black transition-colors hover:bg-zinc-200"
+              className="rounded-lg bg-[#d02030] px-5 py-3 text-[14px] font-semibold text-white transition-colors hover:bg-[#f52b43]"
             >
               Get Started
             </Link>
             <Link
               to="/compliance-check"
-              className="rounded-lg border border-white/35 px-5 py-3 text-[14px] font-semibold text-white transition-colors hover:border-white hover:bg-white/8"
+              className="rounded-lg border border-[#d02030]/50 px-5 py-3 text-[14px] font-semibold text-white transition-colors hover:border-[#ff5a66] hover:bg-[#d02030]/12"
             >
               Contact Us
             </Link>
@@ -103,7 +103,7 @@ type MegaNavButtonProps = {
 const MegaNavButton = ({ section, active, onOpen }: MegaNavButtonProps) => (
   <button
     className={[
-      "relative flex h-full items-center gap-2 px-4 text-[15px] font-medium transition-colors",
+      "relative flex h-full items-center gap-2 px-4 text-[15px] font-medium transition-colors focus:outline-none",
       active ? "text-white" : "text-white/72 hover:text-white",
     ].join(" ")}
     onMouseEnter={onOpen}
@@ -112,12 +112,12 @@ const MegaNavButton = ({ section, active, onOpen }: MegaNavButtonProps) => (
   >
     {section.label}
     <ChevronDown className={["h-4 w-4 transition-transform", active ? "rotate-180" : ""].join(" ")} />
-    {active ? <span className="absolute inset-x-4 bottom-0 h-px bg-white" /> : null}
+    {active ? <span className="absolute inset-x-4 bottom-0 h-px bg-[#f52b43]" /> : null}
   </button>
 );
 
 const DesktopMegaPanel = ({ section }: { section: MegaNavSection }) => (
-  <div className="absolute left-1/2 top-full hidden w-screen -translate-x-1/2 border-y border-white/10 bg-[#f7f7f5] text-zinc-950 shadow-[0_12px_28px_rgba(0,0,0,0.24)] lg:block">
+  <div className="absolute left-1/2 top-full hidden w-screen -translate-x-1/2 border-y border-[#d02030]/20 bg-[#f7f7f5] text-zinc-950 shadow-[0_12px_28px_rgba(0,0,0,0.24)] lg:block">
     <div
       className={[
         "mx-auto grid max-w-[1440px] gap-6 px-10 py-8 lg:px-16",
@@ -137,7 +137,7 @@ const DesktopMegaPanel = ({ section }: { section: MegaNavSection }) => (
                 className={[
                   "block border-l px-4 py-3 transition-colors",
                   item.featured
-                    ? "border-[#6d28d9] bg-violet-50 text-[#4c1d95]"
+                    ? "border-[#d02030] bg-red-50 text-[#991b1b]"
                     : "border-transparent hover:border-zinc-300 hover:bg-white",
                 ].join(" ")}
               >
@@ -155,7 +155,7 @@ const DesktopMegaPanel = ({ section }: { section: MegaNavSection }) => (
 );
 
 const MobileMegaPanel = ({ onClose }: { onClose: () => void }) => (
-  <div className="max-h-[calc(100vh-108px)] overflow-y-auto border-t border-white/10 bg-[#050505] px-5 py-4 lg:hidden">
+  <div className="max-h-[calc(100vh-108px)] overflow-y-auto border-t border-[#d02030]/25 bg-[#030303] px-5 py-4 lg:hidden">
     <div className="space-y-4">
       {megaNavSections.map((section) => (
         <details key={section.label} className="border-b border-white/10 pb-4" open={section.label === "Platform"}>
@@ -189,7 +189,7 @@ const MobileMegaPanel = ({ onClose }: { onClose: () => void }) => (
       <div className="grid grid-cols-2 gap-3 pt-2">
         <Link
           to="/compliance-check"
-          className="rounded-lg bg-white px-4 py-3 text-center text-[14px] font-semibold text-black"
+          className="rounded-lg bg-[#d02030] px-4 py-3 text-center text-[14px] font-semibold text-white"
           onClick={onClose}
         >
           Get Started

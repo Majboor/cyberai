@@ -53,18 +53,18 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="relative bg-[#050505] border-t border-white/[0.03] overflow-hidden">
+    <footer className="relative bg-[#030303] border-t border-[#d02030]/15 overflow-hidden">
       {/* Vertical Background Lines */}
       <div className="absolute inset-0 max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24 pointer-events-none flex justify-between z-0">
-        <div className="w-px h-full bg-white/[0.03]"></div>
-        <div className="hidden lg:block w-px h-full bg-white/[0.03] absolute left-[25%]"></div>
-        <div className="hidden md:block w-px h-full bg-white/[0.03] absolute left-1/2 -translate-x-1/2"></div>
-        <div className="hidden lg:block w-px h-full bg-white/[0.03] absolute left-[75%]"></div>
-        <div className="w-px h-full bg-white/[0.03]"></div>
+        <div className="w-px h-full bg-[#d02030]/10"></div>
+        <div className="hidden lg:block w-px h-full bg-[#d02030]/10 absolute left-[25%]"></div>
+        <div className="hidden md:block w-px h-full bg-[#d02030]/10 absolute left-1/2 -translate-x-1/2"></div>
+        <div className="hidden lg:block w-px h-full bg-[#d02030]/10 absolute left-[75%]"></div>
+        <div className="w-px h-full bg-[#d02030]/10"></div>
       </div>
 
       {/* Top Highlight Gradient */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-px bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent shadow-[0_0_15px_rgba(99,102,241,0.5)] z-20"></div>
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-px bg-gradient-to-r from-transparent via-[#f52b43]/70 to-transparent shadow-[0_0_15px_rgba(245,43,67,0.5)] z-20"></div>
 
       <div className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24">
         {/* Social Connections Row */}

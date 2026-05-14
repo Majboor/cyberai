@@ -17,16 +17,16 @@ All colors MUST be HSL.
     --popover: 220 27% 6%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 271 76% 53%;
+    --primary: 354 75% 47%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 180 65% 45%;
+    --secondary: 354 100% 68%;
     --secondary-foreground: 220 27% 4%;
 
     --muted: 220 27% 12%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 180 65% 45%;
+    --accent: 354 100% 68%;
     --accent-foreground: 220 27% 4%;
 
     --destructive: 0 84.2% 60.2%;
@@ -37,15 +37,15 @@ All colors MUST be HSL.
     --ring: 271 76% 53%;
 
     --cyber-navy: 220 27% 4%;
-    --cyber-purple: 271 76% 53%;
-    --cyber-teal: 180 65% 45%;
+    --cyber-purple: 354 75% 47%;
+    --cyber-teal: 354 100% 68%;
     --cyber-dark: 220 27% 2%;
     --cyber-light: 210 40% 98%;
     
     --gradient-cyber: linear-gradient(135deg, hsl(var(--cyber-navy)), hsl(var(--cyber-purple)));
-    --gradient-glow: linear-gradient(135deg, hsl(var(--cyber-purple) / 0.3), hsl(var(--cyber-teal) / 0.3));
-    --shadow-cyber: 0 20px 40px -10px hsl(var(--cyber-purple) / 0.4);
-    --shadow-glow: 0 0 60px hsl(var(--cyber-teal) / 0.3);
+    --gradient-glow: linear-gradient(135deg, hsl(var(--cyber-purple) / 0.3), hsl(var(--cyber-teal) / 0.22));
+    --shadow-cyber: 0 20px 40px -10px hsl(var(--cyber-purple) / 0.42);
+    --shadow-glow: 0 0 60px hsl(var(--cyber-teal) / 0.24);
 
     --radius: 0.75rem;
 
@@ -140,7 +140,7 @@ All colors MUST be HSL.
     padding: 1px;
     background: radial-gradient(
       800px circle at var(--mouse-x) var(--mouse-y),
-      rgba(255, 255, 255, 0.4),
+      rgba(245, 43, 67, 0.42),
       transparent 40%
     );
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -158,7 +158,7 @@ All colors MUST be HSL.
     inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(225deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+    background: linear-gradient(225deg, rgba(245,43,67,0.16), rgba(255,255,255,0.02));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -182,7 +182,7 @@ All colors MUST be HSL.
     position: absolute;
     width: 1px;
     height: 150px;
-    background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.5), transparent);
+    background: linear-gradient(to bottom, transparent, rgba(245,43,67,0.72), transparent);
     animation: beam-drop 7s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   }
 
