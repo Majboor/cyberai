@@ -1,50 +1,93 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronDown, Cpu, Globe2, Menu, Search, X } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, Cpu, Menu, Search, X } from "lucide-react";
 import { megaNavSections, type MegaNavSection } from "@/data/navigation";
 
-const utilityLinks = ["Experiencing a Breach?", "Blog"];
+const utilityLinks = [
+  { label: "Experiencing a Breach?", href: "/services/data-breach-response" },
+  { label: "Blog", href: "#" },
+];
 
 const Header = () => {
-  const [activeMenu, setActiveMenu] = useState<string | null>(megaNavSections[0]?.label ?? null);
+  const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobilePanel, setMobilePanel] = useState<string | null>(null);
+  const [scrolled, setScrolled] = useState(false);
 
-  const activeSection = megaNavSections.find((section) => section.label === activeMenu);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
+  const activeSection = megaNavSections.find((s) => s.label === activeMenu);
+  const mobilePanelSection = megaNavSections.find((s) => s.label === mobilePanel);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-[#d02030]/25 bg-[#030303]/95 text-white backdrop-blur-md">
-      <div className="mx-auto flex h-8 max-w-[1440px] items-center justify-end gap-6 px-5 text-[13px] text-white/62 md:px-10 lg:px-16">
-        {utilityLinks.map((label) => (
-          <a key={label} href={label === "Blog" ? "/blog" : "/incident-response"} className="hidden transition-colors hover:text-white md:block">
-            {label}
-          </a>
-        ))}
-        <button className="hidden text-white/70 transition-colors hover:text-white md:inline-flex" aria-label="Search">
-          <Search className="h-4 w-4" />
-        </button>
-        <button className="hidden items-center gap-1 text-white/70 transition-colors hover:text-white md:inline-flex" aria-label="Language">
-          <Globe2 className="h-4 w-4" />
-          <ChevronDown className="h-3 w-3" />
-        </button>
+    <header
+      className={`fixed inset-x-0 top-0 z-50 border-b transition-all ${
+        scrolled
+          ? "border-white/10 bg-[#030303]/85 backdrop-blur-xl"
+          : "border-white/5 bg-[#030303]/60 backdrop-blur"
+      }`}
+    >
+      {/* Utility bar */}
+      <div className="border-b border-white/5">
+        <div className="mx-auto flex h-8 max-w-[1440px] items-center justify-end gap-6 px-5 text-[12px] text-white/55 md:px-10 lg:px-16">
+          {utilityLinks.map((l) => (
+            <a
+              key={l.label}
+              href={l.href}
+              className="hidden transition-colors hover:text-white md:inline-block"
+            >
+              {l.label}
+            </a>
+          ))}
+          <button
+            className="hidden text-white/60 transition-colors hover:text-white md:inline-flex"
+            aria-label="Search"
+          >
+            <Search className="h-4 w-4" />
+          </button>
+        </div>
       </div>
 
-      <nav
-        className="relative"
-        onMouseLeave={() => setActiveMenu(null)}
-        aria-label="Primary"
-      >
-        <div className="mx-auto flex h-[76px] max-w-[1440px] items-center justify-between px-5 md:px-10 lg:px-16">
-          <Link to="/" className="flex items-center gap-3" onClick={() => setMobileOpen(false)}>
-            <Cpu className="h-7 w-7 text-white stroke-[1.5]" />
+      {/* Main nav */}
+      <nav className="relative" onMouseLeave={() => setActiveMenu(null)} aria-label="Primary">
+        <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between px-5 md:px-10 lg:px-16">
+          <Link
+            to="/"
+            className="flex items-center gap-3"
+            onClick={() => {
+              setMobileOpen(false);
+              setMobilePanel(null);
+            }}
+          >
+            <div className="relative">
+              <div className="absolute inset-0 bg-[#d02030] blur-md opacity-40" />
+              <Cpu className="relative h-7 w-7 text-white stroke-[1.5]" />
+            </div>
             <span className="flex flex-col leading-none">
-              <span className="text-[22px] font-semibold tracking-tight text-white">CyberAI</span>
+              <span className="text-[20px] font-semibold tracking-tight text-white">CyberAI</span>
               <span className="mt-1 text-[10px] font-medium uppercase tracking-[0.18em] text-white/45">
-                Saudi security group
+                Powered by CyberKSA
               </span>
             </span>
           </Link>
 
-          <div className="hidden h-full items-center gap-1 lg:flex">
+          <div className="hidden h-full items-center gap-0 lg:flex">
             {megaNavSections.map((section) => (
               <MegaNavButton
                 key={section.label}
@@ -55,7 +98,7 @@ const Header = () => {
             ))}
             <a
               href="#pricing"
-              className="flex h-full items-center px-4 text-[15px] font-medium text-white/72 transition-colors hover:text-white"
+              className="flex h-full items-center px-4 text-[14px] font-medium text-white/70 transition-colors hover:text-white"
               onMouseEnter={() => setActiveMenu(null)}
             >
               Pricing
@@ -63,32 +106,44 @@ const Header = () => {
           </div>
 
           <div className="hidden items-center gap-3 lg:flex">
-            <Link
-              to="/compliance-check"
-              className="rounded-lg bg-[#d02030] px-5 py-3 text-[14px] font-semibold text-white transition-colors hover:bg-[#f52b43]"
+            <a
+              href="#contact"
+              className="rounded-lg border border-white/15 px-4 py-2.5 text-[13px] font-semibold text-white/85 transition-all hover:border-white/30 hover:text-white"
             >
-              Get Started
-            </Link>
-            <Link
-              to="/compliance-check"
-              className="rounded-lg border border-[#d02030]/50 px-5 py-3 text-[14px] font-semibold text-white transition-colors hover:border-[#ff5a66] hover:bg-[#d02030]/12"
+              Contact
+            </a>
+            <a
+              href="#book"
+              className="group inline-flex items-center gap-2 rounded-lg bg-[#d02030] px-5 py-2.5 text-[13px] font-semibold text-white transition-all hover:bg-[#f52b43] shadow-[0_0_24px_rgba(208,32,48,0.35)]"
             >
-              Contact Us
-            </Link>
+              Book a Review
+              <ChevronRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+            </a>
           </div>
 
           <button
             className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-white/15 text-white lg:hidden"
             aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
             aria-expanded={mobileOpen}
-            onClick={() => setMobileOpen((open) => !open)}
+            onClick={() => {
+              setMobileOpen((open) => !open);
+              setMobilePanel(null);
+            }}
           >
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
 
         {activeSection?.columns ? <DesktopMegaPanel section={activeSection} /> : null}
-        {mobileOpen ? <MobileMegaPanel onClose={() => setMobileOpen(false)} /> : null}
+        {mobileOpen ? (
+          <MobileMegaPanel
+            activePanel={mobilePanel}
+            onPanelOpen={(label) => setMobilePanel(label)}
+            onPanelBack={() => setMobilePanel(null)}
+            onClose={() => setMobileOpen(false)}
+            panelSection={mobilePanelSection}
+          />
+        ) : null}
       </nav>
     </header>
   );
@@ -102,107 +157,166 @@ type MegaNavButtonProps = {
 
 const MegaNavButton = ({ section, active, onOpen }: MegaNavButtonProps) => (
   <button
-    className={[
-      "relative flex h-full items-center gap-2 px-4 text-[15px] font-medium transition-colors focus:outline-none",
-      active ? "text-white" : "text-white/72 hover:text-white",
-    ].join(" ")}
+    className={`relative flex h-full items-center gap-1.5 px-4 text-[14px] font-medium transition-colors focus:outline-none ${
+      active ? "text-white" : "text-white/70 hover:text-white"
+    }`}
     onMouseEnter={onOpen}
     onFocus={onOpen}
     aria-expanded={active}
   >
     {section.label}
-    <ChevronDown className={["h-4 w-4 transition-transform", active ? "rotate-180" : ""].join(" ")} />
-    {active ? <span className="absolute inset-x-4 bottom-0 h-px bg-[#f52b43]" /> : null}
+    <ChevronDown
+      className={`h-3.5 w-3.5 transition-transform ${active ? "rotate-180 text-[#ff8a96]" : ""}`}
+    />
+    {active ? <span className="absolute inset-x-3 -bottom-px h-px bg-[#d02030]" /> : null}
   </button>
 );
 
 const DesktopMegaPanel = ({ section }: { section: MegaNavSection }) => (
-  <div className="absolute left-1/2 top-full hidden w-screen -translate-x-1/2 border-y border-[#d02030]/20 bg-[#f7f7f5] text-zinc-950 shadow-[0_12px_28px_rgba(0,0,0,0.24)] lg:block">
-    <div
-      className={[
-        "mx-auto grid max-w-[1440px] gap-6 px-10 py-8 lg:px-16",
-        section.columns && section.columns.length > 3 ? "grid-cols-5" : "grid-cols-3",
-      ].join(" ")}
-    >
-      {section.columns?.map((column) => (
-        <div key={column.title} className="min-w-0">
-          <div className="mb-4 border-b border-zinc-300 pb-3 text-[15px] font-semibold text-zinc-950">
-            {column.title}
-          </div>
-          <div className="space-y-1">
-            {column.items.map((item) => (
-              <a
-                key={item.title}
-                href={item.href}
-                className={[
-                  "block border-l px-4 py-3 transition-colors",
-                  item.featured
-                    ? "border-[#d02030] bg-red-50 text-[#991b1b]"
-                    : "border-transparent hover:border-zinc-300 hover:bg-white",
-                ].join(" ")}
-              >
-                <span className="block text-[15px] font-semibold leading-snug">{item.title}</span>
-                <span className="mt-1 block text-[13px] font-medium leading-snug text-zinc-600">
-                  {item.description}
-                </span>
-              </a>
-            ))}
-          </div>
+  <div className="absolute left-0 right-0 top-full hidden lg:block z-[60]">
+    {/* Fully opaque bg so footer / page content behind the dropdown can't bleed through */}
+    <div className="border-y border-white/10 bg-[#050208] shadow-[0_24px_60px_rgba(0,0,0,0.8)]">
+      <div className="mx-auto max-w-[1440px] px-10 py-10 lg:px-16">
+        <div
+          className={`grid gap-8 ${
+            section.columns && section.columns.length > 3 ? "grid-cols-5" : "grid-cols-3"
+          }`}
+        >
+          {section.columns?.map((column) => (
+            <div key={column.title} className="min-w-0">
+              <div className="mb-4 pb-3 border-b border-white/10 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/55">
+                {column.title}
+              </div>
+              <ul className="space-y-1">
+                {column.items.map((item) => (
+                  <li key={item.title}>
+                    <a
+                      href={item.href}
+                      className={`block rounded-lg border px-4 py-3 transition-all ${
+                        item.featured
+                          ? "border-[#d02030]/40 bg-[#d02030]/10 hover:bg-[#d02030]/15"
+                          : "border-transparent hover:border-white/10 hover:bg-white/5"
+                      }`}
+                    >
+                      <span className="block text-[14px] font-semibold text-white leading-snug">
+                        {item.title}
+                      </span>
+                      <span className="mt-1 block text-[12px] leading-snug text-white/55">
+                        {item.description}
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
-      ))}
+      </div>
     </div>
   </div>
 );
 
-const MobileMegaPanel = ({ onClose }: { onClose: () => void }) => (
-  <div className="max-h-[calc(100vh-108px)] overflow-y-auto border-t border-[#d02030]/25 bg-[#030303] px-5 py-4 lg:hidden">
-    <div className="space-y-4">
-      {megaNavSections.map((section) => (
-        <details key={section.label} className="border-b border-white/10 pb-4" open={section.label === "Platform"}>
-          <summary className="cursor-pointer list-none text-[15px] font-semibold text-white">
-            <span className="inline-flex w-full items-center justify-between">
-              {section.label}
-              <ChevronDown className="h-4 w-4 text-white/55" />
-            </span>
-          </summary>
-          <div className="mt-4 space-y-5">
-            {section.columns?.map((column) => (
-              <div key={column.title}>
-                <div className="mb-2 text-[13px] font-semibold text-white/52">{column.title}</div>
-                <div className="space-y-1">
-                  {column.items.map((item) => (
-                    <a
-                      key={item.title}
-                      href={item.href}
-                      className="block rounded-lg px-3 py-2 text-[14px] text-white/78 hover:bg-white/8 hover:text-white"
-                      onClick={onClose}
-                    >
-                      {item.title}
-                    </a>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </details>
-      ))}
-      <div className="grid grid-cols-2 gap-3 pt-2">
-        <Link
-          to="/compliance-check"
-          className="rounded-lg bg-[#d02030] px-4 py-3 text-center text-[14px] font-semibold text-white"
+type MobileMegaPanelProps = {
+  activePanel: string | null;
+  onPanelOpen: (label: string) => void;
+  onPanelBack: () => void;
+  onClose: () => void;
+  panelSection?: MegaNavSection;
+};
+
+const MobileMegaPanel = ({
+  activePanel,
+  onPanelOpen,
+  onPanelBack,
+  onClose,
+  panelSection,
+}: MobileMegaPanelProps) => (
+  <div className="lg:hidden border-t border-white/10 bg-[#030303] absolute inset-x-0 top-full h-[calc(100vh-108px)] overflow-hidden">
+    {!activePanel ? (
+      <div className="h-full overflow-y-auto px-5 py-6 space-y-2 fade-up">
+        {megaNavSections.map((section) => (
+          <button
+            key={section.label}
+            onClick={() => onPanelOpen(section.label)}
+            className="w-full flex items-center justify-between rounded-xl px-5 py-4 text-left border border-white/10 hover:border-white/25 hover:bg-white/5 transition-all"
+          >
+            <span className="text-[15px] font-semibold text-white">{section.label}</span>
+            <ChevronRight className="h-4 w-4 text-white/45" />
+          </button>
+        ))}
+
+        <a
+          href="#pricing"
           onClick={onClose}
+          className="w-full flex items-center justify-between rounded-xl px-5 py-4 text-left border border-white/10 hover:border-white/25 hover:bg-white/5 transition-all"
         >
-          Get Started
-        </Link>
-        <Link
-          to="/compliance-check"
-          className="rounded-lg border border-white/25 px-4 py-3 text-center text-[14px] font-semibold text-white"
-          onClick={onClose}
-        >
-          Contact Us
-        </Link>
+          <span className="text-[15px] font-semibold text-white">Pricing</span>
+          <ChevronRight className="h-4 w-4 text-white/45" />
+        </a>
+
+        <div className="grid grid-cols-2 gap-3 pt-6">
+          <a
+            href="#contact"
+            className="rounded-lg border border-white/15 px-4 py-3 text-center text-[14px] font-semibold text-white hover:bg-white/5 transition-colors"
+            onClick={onClose}
+          >
+            Contact
+          </a>
+          <a
+            href="#book"
+            className="rounded-lg bg-[#d02030] hover:bg-[#f52b43] px-4 py-3 text-center text-[14px] font-semibold text-white transition-colors"
+            onClick={onClose}
+          >
+            Book a Review
+          </a>
+        </div>
       </div>
-    </div>
+    ) : panelSection ? (
+      <div className="h-full flex flex-col fade-up">
+        <div className="sticky top-0 z-10 flex items-center gap-3 px-5 py-4 border-b border-white/10 bg-[#070303]">
+          <button
+            onClick={onPanelBack}
+            className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 hover:bg-white/5 text-white transition-colors"
+            aria-label="Back"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </button>
+          <h2 className="text-[16px] font-semibold text-white">{panelSection.label}</h2>
+        </div>
+
+        <div className="flex-1 overflow-y-auto px-5 py-5 space-y-7">
+          {panelSection.columns?.map((column) => (
+            <div key={column.title}>
+              <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">
+                {column.title}
+              </div>
+              <ul className="space-y-1.5">
+                {column.items.map((item) => (
+                  <li key={item.title}>
+                    <a
+                      href={item.href}
+                      onClick={onClose}
+                      className={`block rounded-lg px-4 py-3 transition-all ${
+                        item.featured
+                          ? "border border-[#d02030]/40 bg-[#d02030]/10"
+                          : "border border-white/5 hover:border-white/15 hover:bg-white/5"
+                      }`}
+                    >
+                      <div className="text-[14px] font-semibold text-white">
+                        {item.title}
+                      </div>
+                      <div className="mt-1 text-[12px] leading-snug text-white/55">
+                        {item.description}
+                      </div>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    ) : null}
   </div>
 );
 

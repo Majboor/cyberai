@@ -44,7 +44,7 @@ const FeaturesGrid = () => {
   const delays = ["0.2s", "0.3s", "0.4s", "0.5s", "0.6s", "0.7s"];
 
   return (
-    <section id="features" className="grid border-[#d02030]/15 md:grid-cols-2 lg:grid-cols-3 md:p-12 lg:p-24 bg-[#030303] border-b px-6 py-6 gap-x-6 gap-y-6">
+    <section id="features" className="grid border-zinc-200 dark:border-[#d02030]/15 md:grid-cols-2 lg:grid-cols-3 md:p-12 lg:p-24 bg-white dark:bg-[#030303] border-b px-6 py-6 gap-x-6 gap-y-6 transition-colors">
       {features.map((feature, idx) => {
         const Icon = feature.icon;
         return (
@@ -53,14 +53,14 @@ const FeaturesGrid = () => {
             className={`p-8 lg:p-12 group animate-on-scroll`}
             style={{ animationDelay: delays[idx] } as React.CSSProperties}
           >
-            <span className="absolute top-8 right-8 text-[11px] font-mono text-[#f52b43]/42">{feature.number}</span>
+            <span className="absolute top-8 right-8 text-[11px] font-mono text-[#d02030]/50 dark:text-[#f52b43]/42">{feature.number}</span>
             <div className="relative z-10 flex flex-col h-full justify-between gap-16">
-              <div className="w-12 h-12 bg-[#d02030]/10 border border-[#d02030]/24 flex items-center justify-center text-[#ff5a66] rounded-sm transition-colors duration-200 group-hover:bg-[#d02030]/18">
+              <div className="w-12 h-12 bg-[#d02030]/10 border border-[#d02030]/24 dark:border-[#d02030]/24 flex items-center justify-center text-[#d02030] dark:text-[#ff5a66] rounded-sm transition-colors duration-200 group-hover:bg-[#d02030]/18">
                 <Icon className="w-6 h-6 stroke-[1.5]" />
               </div>
               <div>
-                <h3 className="text-xl text-white mb-3 font-semibold tracking-tight">{feature.title}</h3>
-                <p className="text-[14px] text-white/50 leading-relaxed">{feature.description}</p>
+                <h3 className="text-xl text-zinc-950 dark:text-white mb-3 font-semibold tracking-tight">{feature.title}</h3>
+                <p className="text-[14px] text-zinc-600 dark:text-white/50 leading-relaxed">{feature.description}</p>
               </div>
             </div>
           </SpotlightCard>

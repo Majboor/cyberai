@@ -1,19 +1,32 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
-import TickerSection from "@/components/TickerSection";
-import ValidationSection from "@/components/ValidationSection";
-import FeaturesGrid from "@/components/FeaturesGrid";
-import MetricsSection from "@/components/MetricsSection";
-import TestimonialsSection from "@/components/TestimonialsSection";
-import PricingSection from "@/components/PricingSection";
-import CTASection from "@/components/CTASection";
+import SidewaveHero from "@/components/SidewaveHero";
+import HeroModeToggle, { type HeroMode } from "@/components/HeroModeToggle";
+import CapabilityTicker from "@/components/CapabilityTicker";
+import ProofStrip from "@/components/ProofStrip";
+import ArchitectureSection from "@/components/ArchitectureSection";
+import PlatformPillars from "@/components/PlatformPillars";
+import OutcomesPanel from "@/components/OutcomesPanel";
+import ExcellenceCards from "@/components/ExcellenceCards";
+import TestimonialsCarousel from "@/components/TestimonialsCarousel";
+import CustomerChoice from "@/components/CustomerChoice";
+import UseCases from "@/components/UseCases";
+import PremiumCTA from "@/components/PremiumCTA";
 import Footer from "@/components/Footer";
-import BackgroundAnimation from "@/components/BackgroundAnimation";
+
+const STORAGE_KEY = "cyberai_hero_mode";
+
+const readMode = (): HeroMode => {
+  if (typeof window === "undefined") return "sidewave";
+  const stored = window.localStorage.getItem(STORAGE_KEY);
+  return stored === "light" ? "light" : "sidewave";
+};
 
 const Index = () => {
+  const [heroMode, setHeroMode] = useState<HeroMode>(readMode);
+
   useEffect(() => {
-    // Initialize scroll animations
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -30,45 +43,43 @@ const Index = () => {
       observer.observe(el);
     });
 
-    return () => {
-      observer.disconnect();
-    };
+    return () => observer.disconnect();
   }, []);
 
+  const handleModeChange = (next: HeroMode) => {
+    try {
+      window.localStorage.setItem(STORAGE_KEY, next);
+    } catch {
+      /* ignore */
+    }
+    // SideWave bootstraps a heavy stack of globals (jQuery plugins, Unity
+    // instance, scroll-driven RAF, body-level CSS). Tearing it down at
+    // runtime leaves orphan handlers calling dead references. A full
+    // reload resets the document cleanly — localStorage carries the choice.
+    window.scrollTo({ top: 0, behavior: "auto" });
+    window.location.reload();
+  };
+
   return (
-    <div className="bg-[#030303] text-white selection:bg-[#d02030]/40 selection:text-white overflow-x-hidden min-h-screen relative">
-      <BackgroundAnimation />
+    <div className="bg-[#030303] text-white selection:bg-[#d02030]/40 selection:text-white overflow-x-hidden min-h-screen">
+      <Header />
+      <HeroModeToggle mode={heroMode} onToggle={handleModeChange} />
 
-      <div className="border-x border-[#d02030]/10 min-h-screen w-full max-w-[1440px] mx-auto relative z-10">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(245,43,67,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(245,43,67,0.03)_1px,transparent_1px)] bg-[size:12rem_24rem] pointer-events-none z-0"></div>
+      <main className="relative pt-[108px]">
+        {heroMode === "sidewave" ? <SidewaveHero /> : <HeroSection />}
+        <CapabilityTicker />
+        <ProofStrip />
+        <ArchitectureSection />
+        <PlatformPillars />
+        <OutcomesPanel />
+        <ExcellenceCards />
+        <TestimonialsCarousel />
+        <CustomerChoice />
+        <UseCases />
+        <PremiumCTA />
+      </main>
 
-        <div className="absolute inset-0 flex justify-between pointer-events-none z-0 px-6 md:px-12 lg:px-24">
-          <div className="relative w-px h-full bg-[#d02030]/10 overflow-hidden">
-            <div className="beam"></div>
-          </div>
-          <div className="relative w-px h-full bg-[#d02030]/10 hidden md:block overflow-hidden absolute left-1/2 -translate-x-1/2">
-            <div className="beam beam-delay-1"></div>
-          </div>
-          <div className="relative w-px h-full bg-[#d02030]/10 overflow-hidden">
-            <div className="beam beam-delay-2"></div>
-          </div>
-        </div>
-
-        <Header />
-
-        <main className="z-10 relative pt-[108px]">
-          <HeroSection />
-          <TickerSection />
-          <ValidationSection />
-          <FeaturesGrid />
-          <MetricsSection />
-          <TestimonialsSection />
-          <PricingSection />
-          <CTASection />
-        </main>
-
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 };

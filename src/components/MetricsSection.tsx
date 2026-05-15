@@ -7,14 +7,14 @@ const MetricsSection = () => {
   const ref1 = useScrollAnimation();
   
   return (
-    <section className="p-6 md:p-12 lg:p-24 bg-[#050202] border-b border-[#d02030]/15">
+    <section className="p-6 md:p-12 lg:p-24 bg-white dark:bg-[#050202] border-b border-zinc-200 dark:border-[#d02030]/15 transition-colors">
       <div ref={ref1} className="mb-16 animate-on-scroll">
-        <h2 className="leading-tight md:text-5xl lg:text-6xl text-4xl italic text-white tracking-tight">
-          <span className="font-light text-white/50">Threat Closure</span> System Metrics
+        <h2 className="leading-tight md:text-5xl lg:text-6xl text-4xl italic text-zinc-950 dark:text-white tracking-tight">
+          <span className="font-light text-zinc-500 dark:text-white/50">Threat Closure</span> System Metrics
         </h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 auto-rows-auto text-white gap-x-4 gap-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 auto-rows-auto text-zinc-950 dark:text-white gap-x-4 gap-y-4">
         {/* Top Left: Hero Image Card */}
         <div className="col-span-1 md:col-span-12 lg:col-span-4 row-span-1 lg:row-span-2 relative h-[300px] lg:h-auto overflow-hidden rounded-sm bg-zinc-900 group spotlight-card">
           <img 

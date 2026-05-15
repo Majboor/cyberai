@@ -1,102 +1,105 @@
-import { Link } from "react-router-dom";
-import { ArrowRight, CheckCircle2, Code2, ScanSearch, ShieldCheck } from "lucide-react";
-import { useScrollAnimation } from "@/hooks/use-scroll-animation";
+import { ArrowRight } from "lucide-react";
+import AnimatedOrb from "./AnimatedOrb";
 
 const HeroSection = () => {
-  const ref1 = useScrollAnimation();
-  const ref2 = useScrollAnimation();
-  const ref3 = useScrollAnimation();
-  const ref4 = useScrollAnimation();
-
   return (
-    <section className="relative min-h-[720px] overflow-hidden border-b border-[#d02030]/15 px-6 pb-16 pt-14 md:px-12 md:pb-24 md:pt-20 lg:px-24">
-      <div className="absolute inset-y-0 right-0 hidden w-[58%] lg:block">
-        <img
-          src="/pointblank/hero-security-core.png"
-          alt="Abstract security automation core"
-          className="h-full w-full object-cover object-[72%_50%] opacity-78"
+    <section className="relative overflow-hidden border-b border-white/10 bg-[#030303]">
+      {/* Background ambient glows */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute -top-1/3 -right-1/4 w-[1100px] h-[1100px] rounded-full bg-[radial-gradient(circle,rgba(208,32,48,0.2),transparent_55%)] blur-3xl" />
+        <div className="absolute -bottom-1/3 -left-1/4 w-[900px] h-[900px] rounded-full bg-[radial-gradient(circle,rgba(102,0,8,0.55),transparent_60%)] blur-3xl" />
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[700px] rounded-full bg-[radial-gradient(circle,rgba(245,43,67,0.08),transparent_70%)] blur-3xl float-y" />
+      </div>
+
+      {/* Faint masked grid */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.18]"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(245,43,67,0.08) 1px,transparent 1px),linear-gradient(90deg,rgba(245,43,67,0.08) 1px,transparent 1px)",
+          backgroundSize: "72px 72px",
+          maskImage: "radial-gradient(ellipse at 65% 50%, #000 25%, transparent 75%)",
+          WebkitMaskImage: "radial-gradient(ellipse at 65% 50%, #000 25%, transparent 75%)",
+        }}
+      />
+
+      {/* Diagonal light streaks */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div
+          className="absolute top-0 left-1/3 w-px h-full opacity-30"
+          style={{
+            background:
+              "linear-gradient(180deg, transparent, rgba(255,90,102,0.5) 40%, rgba(255,90,102,0.5) 60%, transparent)",
+            transform: "rotate(8deg) translateY(-20%)",
+          }}
         />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,#030303_0%,rgba(3,3,3,0.72)_26%,rgba(3,3,3,0.18)_58%,rgba(3,3,3,0.38)_100%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_58%_48%,rgba(245,43,67,0.22),transparent_34%)]" />
+        <div
+          className="absolute top-0 right-1/4 w-px h-full opacity-25"
+          style={{
+            background:
+              "linear-gradient(180deg, transparent, rgba(208,32,48,0.6) 45%, transparent)",
+            transform: "rotate(-6deg) translateY(-10%)",
+          }}
+        />
       </div>
 
-      <div className="relative z-10 grid min-h-[560px] items-center gap-12 lg:grid-cols-12">
-        <div className="flex flex-col gap-8 lg:col-span-7">
-          <div ref={ref1} className="animate-on-scroll">
-            <span className="inline-flex items-center gap-2 rounded-sm border border-[#d02030]/45 bg-[#d02030]/12 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#ffb4bb]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#f52b43]" />
-              Autonomous AI Defense
-            </span>
+      <div className="relative z-10 mx-auto max-w-[1440px] px-6 md:px-12 lg:px-20 pt-16 pb-24 md:pt-20 md:pb-32 lg:pt-24 lg:pb-40">
+        <div className="grid gap-10 lg:gap-6 lg:grid-cols-12 items-center min-h-[640px]">
+          {/* Left: tight copy */}
+          <div className="lg:col-span-6 flex flex-col gap-7 fade-up relative z-20">
+            <div>
+              <span className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full border border-[#d02030]/40 bg-[#d02030]/10 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#ff8a96]">
+                <span className="relative inline-flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-[#f52b43] opacity-70 animate-ping" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-[#f52b43]" />
+                </span>
+                CyberAI
+              </span>
+            </div>
+
+            <h1 className="font-bold leading-[0.98] tracking-tight text-white text-6xl sm:text-7xl lg:text-[5.5rem] xl:text-[6.5rem]">
+              Security,
+              <br />
+              <span className="bg-gradient-to-r from-[#ffd4d9] via-[#ff8a96] to-[#d02030] bg-clip-text text-transparent">
+                redefined.
+              </span>
+            </h1>
+
+            <p className="max-w-md text-lg leading-relaxed text-white/65">
+              AI accelerates. Experts verify. Every finding shipped with proof.
+            </p>
+
+            <div className="flex flex-wrap gap-3 pt-1">
+              <a
+                href="#services"
+                className="group inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-[#d02030] hover:bg-[#f52b43] text-white font-semibold rounded-lg transition-all shadow-[0_0_40px_rgba(208,32,48,0.45)]"
+              >
+                Explore Services
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </a>
+              <a
+                href="#contact"
+                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 border border-white/15 hover:border-white/30 text-white font-semibold rounded-lg hover:bg-white/5 transition-colors glass-dark"
+              >
+                Book Review
+              </a>
+            </div>
           </div>
 
-          <h1
-            ref={ref2}
-            className="animate-on-scroll max-w-4xl text-[3.25rem] font-black uppercase leading-[0.9] tracking-tight text-white sm:text-6xl lg:text-[5.8rem]"
-            style={{ animationDelay: "0.2s" }}
-          >
-            <span className="block">AI finds risk.</span>
-            <span className="block text-[#f52b43]">CyberAI closes it.</span>
-          </h1>
-
-          <p
-            ref={ref3}
-            className="max-w-xl text-lg leading-relaxed text-white/64 md:text-xl"
-            style={{ animationDelay: "0.3s" }}
-          >
-            Scan, prove, patch, and verify security issues across applications, APIs, codebases, cloud systems, and managed operations for Saudi and Gulf enterprises.
-          </p>
-
-          <div ref={ref4} className="animate-on-scroll flex flex-col gap-4 pt-2 sm:flex-row" style={{ animationDelay: "0.5s" }}>
-            <Link
-              to="/compliance-check"
-              className="inline-flex items-center justify-center gap-3 rounded-lg bg-[#d02030] px-7 py-4 text-sm font-semibold uppercase tracking-[0.14em] text-white shadow-[0_18px_36px_-18px_rgba(245,43,67,0.9)] transition-colors hover:bg-[#f52b43]"
-            >
-              Book Consultation
-              <ArrowRight className="h-4 w-4 stroke-[2]" />
-            </Link>
-
-            <Link
-              to="/compliance-check"
-              className="inline-flex items-center justify-center rounded-lg border border-[#d02030]/42 bg-black/30 px-7 py-4 text-sm font-semibold uppercase tracking-[0.14em] text-white/78 transition-colors hover:border-[#ff5a66] hover:bg-[#d02030]/12 hover:text-white"
-            >
-              View Framework
-            </Link>
-          </div>
-
-          <div className="grid max-w-2xl grid-cols-1 gap-3 pt-8 text-white/70 sm:grid-cols-3">
-            {[
-              { icon: ScanSearch, title: "Scan", detail: "Attack surface mapped" },
-              { icon: Code2, title: "Patch", detail: "Root cause fixed" },
-              { icon: ShieldCheck, title: "Verify", detail: "Closure proven" },
-            ].map((item) => {
-              const Icon = item.icon;
-              return (
-                <div key={item.title} className="border-l border-[#d02030]/45 bg-black/24 px-4 py-3">
-                  <Icon className="mb-3 h-5 w-5 text-[#f52b43]" />
-                  <div className="text-sm font-bold uppercase tracking-[0.12em] text-white">{item.title}</div>
-                  <div className="mt-1 text-xs text-white/52">{item.detail}</div>
-                </div>
-              );
-            })}
+          {/* Right: hero orb (positioned to bleed beyond container slightly) */}
+          <div className="lg:col-span-6 relative flex items-center justify-center min-h-[420px] lg:min-h-[640px]">
+            <div className="relative">
+              <AnimatedOrb size={680} className="hidden xl:block" />
+              <AnimatedOrb size={580} className="hidden lg:block xl:hidden" />
+              <AnimatedOrb size={420} className="hidden md:block lg:hidden mx-auto" />
+              <AnimatedOrb size={320} className="block md:hidden mx-auto" />
+            </div>
           </div>
         </div>
-
-        <div className="lg:col-span-5 lg:hidden">
-          <div className="relative aspect-[1.54] overflow-hidden rounded-lg border border-[#d02030]/20">
-            <img
-              src="/pointblank/hero-security-core.png"
-              alt="Abstract security automation core"
-              className="h-full w-full object-cover object-[72%_50%]"
-            />
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent,rgba(3,3,3,0.36))]" />
-          </div>
-        </div>
-
-        <div className="hidden lg:col-span-5 lg:block" />
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-[linear-gradient(90deg,transparent,rgba(245,43,67,0.8),transparent)]" />
-      <CheckCircle2 className="absolute bottom-8 right-8 hidden h-6 w-6 text-[#32d583]/70 lg:block" />
+      {/* Bottom thin red edge */}
+      <div className="absolute bottom-0 inset-x-0 h-px bg-[linear-gradient(90deg,transparent,rgba(245,43,67,0.7),transparent)]" />
     </section>
   );
 };

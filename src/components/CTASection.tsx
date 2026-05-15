@@ -35,14 +35,14 @@ const CTASection = () => {
   const ref1 = useScrollAnimation();
 
   return (
-    <section className="lg:py-32 border-[#d02030]/15 overflow-hidden bg-[#050202] border-b pt-24 pb-24 relative">
+    <section className="lg:py-32 border-zinc-200 dark:border-[#d02030]/15 overflow-hidden bg-white dark:bg-[#050202] border-b pt-24 pb-24 relative transition-colors">
       {/* Vertical Background Lines */}
       <div className="absolute inset-0 max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24 pointer-events-none flex justify-between z-0">
-        <div className="w-px h-full bg-[#d02030]/10"></div>
-        <div className="hidden md:block w-px h-full bg-[#d02030]/10 absolute left-1/2 -translate-x-1/2"></div>
-        <div className="hidden lg:block w-px h-full bg-[#d02030]/10 absolute left-[33.33%]"></div>
-        <div className="hidden lg:block w-px h-full bg-[#d02030]/10 absolute left-[66.66%]"></div>
-        <div className="w-px h-full bg-[#d02030]/10"></div>
+        <div className="w-px h-full dark:bg-[#d02030]/10 bg-zinc-200"></div>
+        <div className="hidden md:block w-px h-full dark:bg-[#d02030]/10 bg-zinc-200 absolute left-1/2 -translate-x-1/2"></div>
+        <div className="hidden lg:block w-px h-full dark:bg-[#d02030]/10 bg-zinc-200 absolute left-[33.33%]"></div>
+        <div className="hidden lg:block w-px h-full dark:bg-[#d02030]/10 bg-zinc-200 absolute left-[66.66%]"></div>
+        <div className="w-px h-full dark:bg-[#d02030]/10 bg-zinc-200"></div>
       </div>
 
       <div className="z-10 md:px-12 lg:px-24 max-w-[1440px] mr-auto ml-auto pr-6 pl-6 relative">
