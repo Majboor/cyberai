@@ -13,7 +13,7 @@ type Story = {
 const stories: Story[] = [
   {
     sector: "Healthcare · KSA",
-    pull: "CyberAI moved us from quarterly point tests to a continuous, evidence-backed assurance loop.",
+    pull: "PointBlank moved us from quarterly point tests to a continuous, evidence-backed assurance loop.",
     attribution: "CIO",
     role: "Tertiary care provider, Riyadh",
     metricValue: "62%",

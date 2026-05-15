@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { Cpu, Linkedin, Twitter, Github, Mail, MapPin } from "lucide-react";
+import { Linkedin, Twitter, Github, Mail, MapPin } from "lucide-react";
+import PointBlankLogo from "@/components/PointBlankLogo";
 
 const footerColumns = [
   {
@@ -33,8 +34,8 @@ const footerColumns = [
   {
     title: "Company",
     links: [
-      { text: "About CyberAI", href: "#" },
-      { text: "CyberKSA Heritage", href: "#" },
+      { text: "About PointBlank", href: "#" },
+      { text: "Operating Model", href: "/#architecture" },
       { text: "Careers", href: "#" },
       { text: "Contact Sales", href: "#contact" },
     ],
@@ -62,30 +63,21 @@ const Footer = () => {
           {/* Brand block */}
           <div className="lg:col-span-4">
             <Link to="/" className="inline-flex items-center gap-3 mb-6">
-              <div className="relative">
-                <div className="absolute inset-0 bg-[#d02030] blur-md opacity-40" />
-                <Cpu className="relative h-7 w-7 text-white stroke-[1.5]" />
-              </div>
-              <span className="flex flex-col leading-none">
-                <span className="text-[20px] font-semibold text-white tracking-tight">CyberAI</span>
-                <span className="mt-1 text-[10px] font-medium uppercase tracking-[0.18em] text-white/45">
-                  Powered by CyberKSA
-                </span>
-              </span>
+              <PointBlankLogo subtitle="Offense, Defense, Response" />
             </Link>
 
             <p className="text-[14px] leading-relaxed text-white/55 max-w-sm mb-6">
-              AI-assisted offensive security, defensive operations, compliance, and incident response — verified by experts.
+              PointBlank delivers AI-assisted offensive security, compliance reviews, incident response, and analyst-backed remediation guidance.
             </p>
 
             <div className="space-y-3 text-[13px] text-white/55">
               <div className="flex items-center gap-3">
                 <Mail className="h-4 w-4 text-[#ff8a96]" />
-                <span>hello@cyberai.example</span>
+                <span>hello@pointblank.security</span>
               </div>
               <div className="flex items-center gap-3">
                 <MapPin className="h-4 w-4 text-[#ff8a96]" />
-                <span>Riyadh, Kingdom of Saudi Arabia</span>
+                <span>Riyadh, Saudi Arabia</span>
               </div>
             </div>
 
@@ -139,13 +131,13 @@ const Footer = () => {
             </span>
           </div>
           <div className="text-[12px] font-mono uppercase tracking-[0.22em] text-white/40">
-            Build · v1.0 · CyberAI
+            Build · v1.0 · PointBlank
           </div>
         </div>
 
         {/* Bottom */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pt-6 text-[12px] text-white/45">
-          <p>© 2025 CyberAI. A CyberKSA initiative. All rights reserved.</p>
+          <p>© 2025 PointBlank. All rights reserved.</p>
           <div className="flex items-center gap-6">
             <a href="#" className="hover:text-white transition-colors">Privacy</a>
             <a href="#" className="hover:text-white transition-colors">Terms</a>

@@ -59,7 +59,7 @@ const FeaturesSection = () => {
             Building the Future of AI Cybersecurity in the Gulf
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Cyber AI is under active development, with modules being tested by leading Saudi and GCC enterprises. 
+            PointBlank is under active development, with modules being tested by leading Saudi and GCC enterprises.
             Experience the next generation of AI-powered security designed for the Middle East.
           </p>
         </div>
@@ -67,7 +67,7 @@ const FeaturesSection = () => {
         <div className="mb-16">
           <img 
             src={dashboardImage} 
-            alt="Cyber AI Dashboard" 
+            alt="PointBlank dashboard"
             className="w-full rounded-2xl shadow-2xl border border-border"
           />
         </div>

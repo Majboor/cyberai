@@ -7,6 +7,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ArrowDown, Globe, Shield, CheckCircle, AlertTriangle, Loader2, Plus, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { API_BASE_URL } from '@/lib/api-base';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import Seo from '@/components/Seo';
 
 const gccRegions = [
   { id: 'saudi-arabia', name: 'Saudi Arabia' },
@@ -245,6 +248,13 @@ const ComplianceCheck = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-primary/5">
+      <Seo
+        title="Website Compliance Check | PointBlank"
+        description="Run PointBlank's website compliance workflow across GCC jurisdictions, mapped laws, and evidence-backed cyber findings."
+        path="/compliance-check"
+      />
+      <Header />
+      <main className="pt-[108px]">
       <div className="container mx-auto px-4 py-8">
         
         {/* Step 1: URL Input */}
@@ -632,6 +642,8 @@ const ComplianceCheck = () => {
           </div>
         )}
       </div>
+      </main>
+      <Footer />
     </div>
   );
 };

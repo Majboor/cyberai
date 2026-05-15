@@ -13,6 +13,8 @@ import {
 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Seo from "@/components/Seo";
+import TrustedBrands from "@/components/TrustedBrands";
 import { getServiceBySlug, getRelatedServices } from "@/data/services";
 
 const ServicePage = () => {
@@ -28,6 +30,12 @@ const ServicePage = () => {
   if (!service) {
     return (
       <div className="min-h-screen bg-[#030303] text-white">
+        <Seo
+          title="Service Not Found | PointBlank"
+          description="The requested PointBlank service page could not be found."
+          path={slug ? `/services/${slug}` : "/services"}
+          noIndex
+        />
         <Header />
         <main className="pt-[180px] pb-32">
           <div className="mx-auto max-w-xl px-6 text-center">
@@ -51,6 +59,11 @@ const ServicePage = () => {
 
   return (
     <div className="min-h-screen bg-[#030303] text-white">
+      <Seo
+        title={`${service.title} | PointBlank`}
+        description={`${service.shortDescription} PointBlank combines AI-assisted workflows with expert verification.`}
+        path={`/services/${service.slug}`}
+      />
       <Header />
 
       <main className="pt-[108px]">
@@ -150,6 +163,8 @@ const ServicePage = () => {
           </div>
         </section>
 
+        <TrustedBrands variant="subtle" heading="Trusted by teams that ship security on a deadline" />
+
         {/* Problem & approach */}
         <section className="border-b border-white/10 bg-[#050202]">
           <div className="mx-auto max-w-[1440px] px-6 md:px-12 lg:px-20 py-20 md:py-28 grid gap-14 md:grid-cols-2">
@@ -164,7 +179,7 @@ const ServicePage = () => {
             </div>
             <div>
               <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#ff8a96] mb-4">
-                The CyberAI approach
+                The PointBlank approach
               </div>
               <h2 className="text-3xl md:text-4xl font-bold mb-5 leading-tight">
                 How we close the gap
@@ -219,7 +234,7 @@ const ServicePage = () => {
                   Expert verification, not blind automation
                 </h2>
                 <p className="text-lg text-white/70 leading-relaxed">
-                  AI moves fast. CyberAI experts verify. Every finding is reviewed by a senior security professional before it lands in your report. We use AI to triage, prioritize, and draft — humans confirm and own the call.
+                  AI moves fast. Experts verify. Every finding is reviewed by a senior security professional before it lands in your report.
                 </p>
               </div>
             </div>
@@ -332,7 +347,7 @@ const ServicePage = () => {
                   Start with a security review
                 </h2>
                 <p className="text-lg text-white/70 leading-relaxed mb-8">
-                  Book a call with a CyberAI expert. We'll scope this engagement and confirm the next concrete step within one business day.
+                  Book a call with a PointBlank expert. We'll scope this engagement and confirm the next concrete step within one business day.
                 </p>
                 <div className="flex flex-wrap gap-3">
                   <a

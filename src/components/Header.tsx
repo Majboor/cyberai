@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronDown, ChevronLeft, ChevronRight, Cpu, Menu, Search, X } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, Menu, Search, X } from "lucide-react";
 import { megaNavSections, type MegaNavSection } from "@/data/navigation";
+import PointBlankLogo from "@/components/PointBlankLogo";
 
 const utilityLinks = [
   { label: "Experiencing a Breach?", href: "/services/data-breach-response" },
@@ -75,16 +76,7 @@ const Header = () => {
               setMobilePanel(null);
             }}
           >
-            <div className="relative">
-              <div className="absolute inset-0 bg-[#d02030] blur-md opacity-40" />
-              <Cpu className="relative h-7 w-7 text-white stroke-[1.5]" />
-            </div>
-            <span className="flex flex-col leading-none">
-              <span className="text-[20px] font-semibold tracking-tight text-white">CyberAI</span>
-              <span className="mt-1 text-[10px] font-medium uppercase tracking-[0.18em] text-white/45">
-                Powered by CyberKSA
-              </span>
-            </span>
+            <PointBlankLogo />
           </Link>
 
           <div className="hidden h-full items-center gap-0 lg:flex">

@@ -5,13 +5,13 @@ const slides = [
   {
     eyebrow: "Gartner Peer Insights",
     title: "Recognized as a Customer's Choice",
-    body: "Gartner Peer Insights recognized CyberAI as a Customer's Choice for Endpoint Extended Detection and Response.",
+    body: "Gartner Peer Insights recognized PointBlank as a Customer's Choice for endpoint extended detection and response.",
     cta: "Read More Reviews",
   },
   {
     eyebrow: "Forrester Wave",
     title: "Leader in the Forrester XDR Wave",
-    body: "CyberAI ranked among the highest scoring vendors for evidence-driven detection and unified response.",
+    body: "PointBlank ranked among the highest scoring vendors for evidence-driven detection and unified response.",
     cta: "View the Report",
   },
   {
@@ -28,7 +28,7 @@ const CustomerChoice = () => {
 
   return (
     <section id="proof" className="relative bg-[#030303] border-b border-white/10">
-      <div className="mx-auto max-w-[1440px] px-6 md:px-12 lg:px-20 py-20 md:py-28">
+      <div className="mx-auto max-w-[1440px] px-6 md:px-12 lg:px-20 py-14 md:py-20">
         <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#f5f3ef]">
           <div
             className="absolute inset-0 opacity-25"

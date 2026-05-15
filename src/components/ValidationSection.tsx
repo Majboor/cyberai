@@ -1,7 +1,7 @@
 const validationCards = [
   {
     image: "/pointblank/validation-leader.png",
-    title: "CyberKSA Core",
+    title: "PointBlank Core",
     description: "Offensive testing, SOC, vCISO, breach response, and investigations.",
   },
   {

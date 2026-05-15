@@ -4,7 +4,7 @@ import { ArrowLeft, ArrowRight, Play } from "lucide-react";
 const testimonials = [
   {
     quote:
-      "Innovation is king and we have to move fast. CyberAI gives us the confidence to move quickly, knowing it has our back.",
+      "Innovation is king and we have to move fast. PointBlank gives us the confidence to move quickly, knowing it has our back.",
     author: "Lou Senko",
     role: "Chief Availability Officer, Q2",
     image: "/sentinel-assets/home_mercury_Q2@2x.jpg",
@@ -44,17 +44,17 @@ const TestimonialsCarousel = () => {
 
   return (
     <section className="relative bg-[#030303] border-b border-white/10 overflow-hidden">
-      <div className="mx-auto max-w-[1440px] px-6 md:px-12 lg:px-20 py-24 md:py-32">
+      <div className="mx-auto max-w-[1440px] px-6 md:px-12 lg:px-20 py-16 md:py-24">
         <div className="flex flex-wrap items-end justify-between gap-6 mb-12">
           <div>
             <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ff8a96] mb-4">
               Customers
             </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight leading-[1.05] text-white max-w-3xl">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight leading-[1.05] text-white max-w-3xl">
               Securing the best of the best.
             </h2>
             <p className="text-white/55 mt-5 max-w-xl">
-              Industry leaders choose CyberAI for the clarity, control, and confidence
+              Industry leaders choose PointBlank for the clarity, control, and confidence
               to stay ahead in a world that won't slow down.
             </p>
           </div>
@@ -93,7 +93,7 @@ const TestimonialsCarousel = () => {
           <article
             key={t.author}
             data-card
-            className="group relative shrink-0 snap-start w-[88vw] sm:w-[440px] md:w-[520px] aspect-[4/5] overflow-hidden rounded-2xl border border-white/10 bg-[#0a0606]"
+            className="group relative shrink-0 snap-start w-[88vw] sm:w-[440px] md:w-[520px] aspect-[5/6] overflow-hidden rounded-2xl border border-white/10 bg-[#0a0606]"
           >
             <img
               src={t.image}

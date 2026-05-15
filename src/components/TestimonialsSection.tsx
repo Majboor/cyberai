@@ -14,7 +14,7 @@ const TestimonialsSection = () => {
     },
     {
       number: "02",
-      quote: "Integrating Saudi Cyber AI into our security infrastructure was seamless. The compliance automation saved us months of manual work.",
+      quote: "Integrating PointBlank into our security infrastructure was seamless. The compliance automation saved us months of manual work.",
       author: "Marcus Chen",
       role: "AI Lead, Stripe",
       company: "stripe",
@@ -32,7 +32,7 @@ const TestimonialsSection = () => {
     },
     {
       number: "04",
-      quote: "Saudi Cyber AI transformed our compliance processes. Automated monitoring reduced audit preparation by 70%.",
+      quote: "PointBlank transformed our compliance processes. Automated monitoring reduced audit preparation by 70%.",
       author: "David Okonjo",
       role: "VP Product, Shopify",
       company: "shopify",

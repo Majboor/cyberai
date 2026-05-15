@@ -134,7 +134,7 @@ const MetricsSection = () => {
               Designed For Infinite <span className="text-white/50 font-light">Scale</span>
             </h3>
             <p className="text-[11px] uppercase leading-relaxed text-sm font-medium text-zinc-500 tracking-wide border-white/10 border-t mb-6 pt-4">
-              Saudi Cyber AI serves as the foundational security layer for global enterprise automation and threat detection architecture.
+              PointBlank serves as the foundational security layer for enterprise automation and threat detection architecture.
             </p>
             <div className="border border-white/10 bg-black/40 p-3 rounded-sm">
               <div className="flex justify-between items-center mb-2">

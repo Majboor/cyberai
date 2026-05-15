@@ -52,7 +52,7 @@ const CTASection = () => {
             <div>
               <div className="inline-flex items-center gap-2 mb-8 border border-[#d02030]/30 rounded-lg px-3 py-1 bg-[#d02030]/10">
                 <span className="text-[#f52b43] text-sm">■</span>
-                <span className="text-[10px] tracking-[0.2em] uppercase text-white/60 font-medium">Why Saudi Cyber AI</span>
+                <span className="text-[10px] tracking-[0.2em] uppercase text-white/60 font-medium">Why PointBlank</span>
               </div>
               <h2 className="text-4xl md:text-5xl lg:text-5xl text-white font-serif italic tracking-tight font-light mb-6">
                 Built for

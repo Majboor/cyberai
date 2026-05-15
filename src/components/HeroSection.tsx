@@ -53,7 +53,7 @@ const HeroSection = () => {
                   <span className="absolute inline-flex h-full w-full rounded-full bg-[#f52b43] opacity-70 animate-ping" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-[#f52b43]" />
                 </span>
-                CyberAI
+                PointBlank
               </span>
             </div>
 

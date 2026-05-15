@@ -21,10 +21,10 @@ export const megaNavSections: MegaNavSection[] = [
     label: "Platform",
     columns: [
       {
-        title: "CyberAI Platform",
+        title: "PointBlank Platform",
         items: [
           {
-            title: "Saudi Cyber AI",
+            title: "PointBlank",
             description: "Enterprise AI security advisory, automation, and compliance workflows.",
             href: "/",
             featured: true,
@@ -47,7 +47,7 @@ export const megaNavSections: MegaNavSection[] = [
         ],
       },
       {
-        title: "CyberKSA Core",
+        title: "PointBlank Core",
         items: [
           {
             title: "Penetration Testing",
@@ -338,9 +338,9 @@ export const megaNavSections: MegaNavSection[] = [
         title: "Company",
         items: [
           {
-            title: "CyberKSA",
-            description: "Core security services and Saudi cyber consulting heritage.",
-            href: "/companies/cyberksa",
+            title: "PointBlank",
+            description: "Core security services, compliance workflows, and expert-led cyber delivery.",
+            href: "/",
             featured: true,
           },
           {
