@@ -417,6 +417,22 @@ body.sidewave-active {
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
+/* Infinite horizontal logo track for TrustedBrands. The track contains the
+   logo list duplicated once; translating by -50% completes one full cycle. */
+@keyframes trust-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.trust-marquee {
+  width: max-content;
+  animation: trust-scroll 38s linear infinite;
+  will-change: transform;
+}
+.trust-marquee:hover { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .trust-marquee { animation: none; }
+}
+
 /* Force SideWave's loader-gated UI to be visible immediately
    (don't wait for Unity's ShowUnityWebGL fade-in).
    These override SideWave's defaults so the user always has a way out. */
