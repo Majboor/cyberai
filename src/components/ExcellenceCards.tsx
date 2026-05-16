@@ -27,12 +27,12 @@ const cards = [
 const ExcellenceCards = () => {
   return (
     <section className="relative bg-[#050202] border-b border-white/10">
-      <div className="mx-auto max-w-[1440px] px-6 md:px-12 lg:px-20 py-24 md:py-32">
+      <div className="mx-auto max-w-[1440px] px-6 md:px-12 lg:px-20 py-16 md:py-24">
         <div className="text-center mb-14">
           <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ff8a96] mb-4">
             Validation
           </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight leading-[1.05] text-white">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight leading-[1.05] text-white">
             The standard in security excellence.
           </h2>
           <p className="text-white/55 mt-5 max-w-xl mx-auto">
@@ -45,7 +45,7 @@ const ExcellenceCards = () => {
             <a
               key={c.title}
               href={c.href}
-              className="group relative aspect-[3/4] overflow-hidden rounded-2xl border border-white/10 bg-[#0a0606]"
+              className="group relative aspect-[4/5] overflow-hidden rounded-2xl border border-white/10 bg-[#0a0606]"
             >
               {/* Animated background */}
               <div

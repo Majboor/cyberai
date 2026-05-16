@@ -6,14 +6,14 @@ const ArchitectureSection = () => {
       id="architecture"
       className="relative border-b border-white/10 bg-[#030303]"
     >
-      <div className="relative mx-auto max-w-[1440px] px-6 md:px-12 lg:px-20 py-24 md:py-32">
+      <div className="relative mx-auto max-w-[1440px] px-6 md:px-12 lg:px-20 py-16 md:py-24">
         {/* Header */}
         <div className="flex flex-wrap items-end justify-between gap-6 mb-14">
           <div>
             <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ff8a96] mb-4">
               Operating Model
             </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight leading-[1.05] text-white max-w-3xl">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight leading-[1.05] text-white max-w-3xl">
               One loop. Signal to closure.
             </h2>
           </div>

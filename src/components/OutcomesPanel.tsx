@@ -25,13 +25,13 @@ const outcomes = [
 const OutcomesPanel = () => {
   return (
     <section id="outcomes" className="relative bg-[#030303] border-b border-white/10">
-      <div className="mx-auto max-w-[1440px] px-6 md:px-12 lg:px-20 py-24 md:py-32">
+      <div className="mx-auto max-w-[1440px] px-6 md:px-12 lg:px-20 py-16 md:py-24">
         <div className="flex flex-wrap items-end justify-between gap-6 mb-14">
           <div>
             <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ff8a96] mb-4">
               Outcomes
             </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight leading-[1.05] text-white max-w-3xl">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight leading-[1.05] text-white max-w-3xl">
               Built for the outcomes<br />that actually matter.
             </h2>
           </div>
@@ -42,7 +42,7 @@ const OutcomesPanel = () => {
             <Link
               key={o.label}
               to={o.href}
-              className="group relative aspect-[3/4] overflow-hidden rounded-2xl border border-white/10 bg-[#0a0606]"
+              className="group relative aspect-[4/5] overflow-hidden rounded-2xl border border-white/10 bg-[#0a0606]"
             >
               <img
                 src={o.image}

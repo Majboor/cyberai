@@ -357,22 +357,65 @@ body.sidewave-active {
   background-color: #000;
 }
 
-/* Brand CTA buttons overlaid above the SideWave Unity canvas */
+/* Brand CTA buttons overlaid above the SideWave Unity canvas.
+   Positioned high enough that the Scroll Down pill (bottom: 36px below)
+   never overlaps. The buttons share width and height so the pair reads as
+   one control. */
 .sidewave-cta-overlay {
   position: fixed;
   left: 50%;
-  bottom: 14vh;
+  bottom: 120px;
   transform: translateX(-50%);
   z-index: 30;
   display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
+  gap: 14px;
+  flex-wrap: nowrap;
   justify-content: center;
+  align-items: center;
   opacity: 0;
   pointer-events: none;
   transition: opacity 600ms ease 200ms;
 }
 .sidewave-cta-overlay.is-ready { opacity: 1; pointer-events: auto; }
+.sidewave-cta-overlay > a {
+  min-width: 168px;
+  height: 48px;
+  padding: 0 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+.sidewave-cta-primary {
+  background: #d02030;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 10px 32px -8px rgba(208, 32, 48, 0.65);
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.sidewave-cta-primary:hover {
+  background: #f52b43;
+  transform: translateY(-1px);
+  box-shadow: 0 14px 36px -8px rgba(245, 43, 67, 0.75);
+}
+.sidewave-cta-secondary {
+  background: rgba(8, 8, 12, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #fff;
+  font-weight: 500;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+.sidewave-cta-secondary:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
+}
 
 /* Hero mode toggle (fixed top-right) */
 .hero-mode-toggle {
@@ -410,7 +453,19 @@ body.sidewave-active {
 
 @media (max-width: 768px) {
   .hero-mode-toggle { top: 84px; right: 12px; font-size: 10px; padding: 6px 10px; }
-  .sidewave-cta-overlay { bottom: 12vh; }
+  .sidewave-cta-overlay {
+    bottom: 96px;
+    gap: 10px;
+    width: calc(100% - 32px);
+    max-width: 420px;
+  }
+  .sidewave-cta-overlay > a {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 44px;
+    padding: 0 16px;
+    font-size: 13px;
+  }
 }
 
 /* Hide scrollbar on horizontal scrollers */
@@ -441,21 +496,103 @@ body.sidewave-active #spaceNavigation.scrollToDiscover {
   opacity: 1 !important;
   pointer-events: auto !important;
   z-index: 35 !important;
+  bottom: 36px !important;
   cursor: pointer;
-  padding: 12px 22px;
+  padding: 9px 18px;
   border-radius: 999px;
-  background: rgba(8,8,12,0.55);
-  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(8, 8, 12, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  transition: background 0.2s ease, border-color 0.2s ease;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 body.sidewave-active #spaceNavigation.scrollToDiscover:hover {
-  background: rgba(208,32,48,0.85);
-  border-color: rgba(255,255,255,0.45);
+  background: rgba(208, 32, 48, 0.85);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+@media (max-width: 768px) {
+  body.sidewave-active #spaceNavigation.scrollToDiscover {
+    bottom: 24px !important;
+    padding: 8px 14px;
+    font-size: 10px;
+  }
 }
 body.sidewave-active #sidewaveLogo { position: fixed; top: 24px; left: 24px; height: 40px; z-index: 35; }
 body.sidewave-active .sidewave-cta-overlay { opacity: 1 !important; pointer-events: auto !important; }
+
+/* Once the user scrolls past the hero zone, fade out the floating chrome
+   so it doesn't ride along on top of the rest of the page. */
+body.sidewave-past-hero .sidewave-cta-overlay,
+body.sidewave-past-hero #spaceNavigation.scrollToDiscover,
+body.sidewave-past-hero #sidewaveLogo {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 220ms ease;
+}
+
+/* Idle scroll hint: the Scroll Down pill grows a soft glow and a small
+   bouncing chevron once the user has been sitting still between waypoints.
+   The class is added by SidewaveHero after HINT_IDLE_MS of no scroll and
+   stripped the moment the user moves again. */
+@keyframes sidewave-hint-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(208, 32, 48, 0.45);
+    border-color: rgba(255, 255, 255, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(208, 32, 48, 0);
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+}
+@keyframes sidewave-hint-bounce {
+  0%, 100% { transform: translate(-50%, 0); opacity: 0.7; }
+  50% { transform: translate(-50%, 4px); opacity: 1; }
+}
+body.sidewave-active.sidewave-hint-active
+  #spaceNavigation.scrollToDiscover {
+  animation: sidewave-hint-pulse 1.4s ease-in-out infinite;
+}
+body.sidewave-active.sidewave-hint-active
+  #spaceNavigation.scrollToDiscover::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -14px;
+  width: 8px;
+  height: 8px;
+  border-right: 1.5px solid rgba(255, 255, 255, 0.85);
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.85);
+  transform: translate(-50%, 0) rotate(45deg);
+  animation: sidewave-hint-bounce 1.4s ease-in-out infinite;
+}
+/* The pill is position:fixed with bottom:36px — the chevron sits just
+   beneath it, so we need overflow visible. The pill already has it by
+   default but make sure no later rule clips. */
+body.sidewave-active #spaceNavigation.scrollToDiscover { overflow: visible; }
+
+/* "Switch to lite hero" CTA, surfaced inside the loader overlay only when
+   the Unity bootstrap takes longer than SLOW_LOAD_MS. */
+.sidewave-lite-cta {
+  margin-top: 20px;
+  padding: 10px 22px;
+  border-radius: 999px;
+  background: #d02030;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 10px 28px -8px rgba(208, 32, 48, 0.55);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.sidewave-lite-cta:hover {
+  background: #f52b43;
+  transform: translateY(-1px);
+}
 
 /* Tiny copy below the Scroll Down button hinting at the natural exit. */
 .sidewave-scroll-hint {

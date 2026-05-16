@@ -52,18 +52,18 @@ const TrustedBrands = ({ variant = "dark", heading = "Trusted by leading brands"
               className="pointer-events-none absolute inset-y-0 right-0 w-16 z-10 bg-gradient-to-l to-transparent"
               style={{ background: `linear-gradient(to left, ${bgColor}, transparent)` }}
             />
-            <div className="trust-marquee flex items-center gap-8 md:gap-12">
+            <div className="trust-marquee flex items-center gap-10 md:gap-12">
               {track.map((logo, idx) => (
                 <div
                   key={`${logo.src}-${idx}`}
-                  className="flex-shrink-0 h-7 md:h-9 w-[88px] md:w-[110px] flex items-center justify-center"
+                  className="flex-shrink-0 h-12 md:h-9 w-[130px] md:w-[110px] flex items-center justify-center"
                   aria-hidden={idx >= LOGOS.length}
                 >
                   <img
                     src={logo.src}
                     alt={logo.alt}
                     loading="lazy"
-                    className="max-h-full max-w-full object-contain opacity-50 grayscale brightness-150 hover:opacity-95 hover:grayscale-0 hover:brightness-100 transition-all duration-300"
+                    className="max-h-full max-w-full object-contain opacity-60 md:opacity-50 grayscale brightness-150 hover:opacity-95 hover:grayscale-0 hover:brightness-100 transition-all duration-300"
                   />
                 </div>
               ))}

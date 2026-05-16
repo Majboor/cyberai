@@ -10,7 +10,7 @@ const pillars = [
     id: "stop",
     eyebrow: "01",
     title: "Stop threats\nbefore they start.",
-    body: "AI-led discovery, validation, and prioritization compresses weeks of analyst toil into hours of evidence-backed action.",
+    body: "AI compresses weeks of analyst toil into hours of evidence-backed action.",
     visual: { type: "video" as const, src: VIDEO_URL, poster: POSTER },
     cta: { label: "Explore the platform", href: "#architecture" },
   },
@@ -18,7 +18,7 @@ const pillars = [
     id: "amplify",
     eyebrow: "02",
     title: "Amplify humans.\nEmpower teams.",
-    body: "Every analyst becomes a force multiplier — AI accelerates triage, response, and reporting while experts keep decisions in hand.",
+    body: "Every analyst, force-multiplied. Experts keep decisions in hand.",
     visual: { type: "image" as const, src: "/sentinel-assets/Home_Intro_02_M@2x.png" },
     cta: { label: "See the operating model", href: "#architecture" },
   },
@@ -26,7 +26,7 @@ const pillars = [
     id: "simplify",
     eyebrow: "03",
     title: "Simplify\nsecurity operations.",
-    body: "One loop: signal to closure. Unified context, action, and evidence across endpoint, cloud, identity, and the human in the chair.",
+    body: "One loop. Signal to closure. End to end.",
     visual: { type: "image" as const, src: "/sentinel-assets/Home_Intro_03_M@2x.png" },
     cta: { label: "Tour the workflow", href: "#categories" },
   },
@@ -45,14 +45,14 @@ const PlatformPillars = () => {
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[1100px] h-[800px] rounded-full bg-[radial-gradient(circle,rgba(208,32,48,0.18),transparent_60%)] blur-3xl" />
       </div>
 
-      <div className="relative mx-auto max-w-[1440px] px-6 md:px-12 lg:px-20 py-24 md:py-32">
+      <div className="relative mx-auto max-w-[1440px] px-6 md:px-12 lg:px-20 py-16 md:py-24">
         {/* Header */}
         <div className="flex flex-wrap items-end justify-between gap-6 mb-14">
           <div>
             <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ff8a96] mb-4">
               The Platform
             </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight leading-[1.05] text-white max-w-3xl">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight leading-[1.05] text-white max-w-3xl">
               Three pillars.<br />One unified defense.
             </h2>
           </div>
@@ -62,7 +62,7 @@ const PlatformPillars = () => {
         </div>
 
         {/* Visual */}
-        <div className="relative aspect-[16/8] md:aspect-[16/7] rounded-2xl overflow-hidden border border-white/10 bg-[#0a0606] mb-10">
+        <div className="relative aspect-[16/7] md:aspect-[16/6] rounded-2xl overflow-hidden border border-white/10 bg-[#0a0606] mb-10">
           {active.visual.type === "video" ? (
             <video
               key={active.id}

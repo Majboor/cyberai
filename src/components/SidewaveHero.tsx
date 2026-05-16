@@ -33,9 +33,18 @@ const FRAME_END = 3260;
 // hard-fallback for the math if not set yet.
 const FALLBACK_TOTAL_FRAMES = 12767;
 
-// Hero zone height as a multiple of viewport. ~4× gives a comfortable
-// scroll-through without dead space (because we remap Unity frames).
-const HERO_HEIGHT_VH = 4;
+// Hero zone height as a multiple of viewport. 2.4× keeps the snap-scroll
+// waypoints close enough that the user reaches the end in a few wheel ticks
+// while leaving room for the Unity timeline to breathe between beats.
+const HERO_HEIGHT_VH = 2.4;
+
+// Per-snap animation duration. SideWave's default is 1200ms which makes a
+// 9-waypoint hero feel sluggish; 600ms keeps each transition readable but
+// snappy. We override the global on `window` after the script loads — the
+// `var` at file scope in scroll-navigation.js maps to window.* so the
+// closure inside RebuildPositions reads the live value.
+const SNAP_DURATION_MS = 600;
+const SNAP_IGNORE_MS = 90;
 
 // Compute the data-frame-count attribute for a given Unity frame target.
 //
@@ -143,10 +152,58 @@ const installHeroZone = (totalFrames: number) => {
   $?.(window).trigger("resize");
 };
 
+const SLOW_LOAD_MS = 2500;
+const STORAGE_KEY = "pointblank_hero_mode";
+
 const SidewaveHero = ({ onSkip }: { onSkip?: () => void }) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [unityReady, setUnityReady] = useState(false);
+  const [slowLoad, setSlowLoad] = useState(false);
+
+  // If Unity hasn't finished its bootstrap inside SLOW_LOAD_MS, surface a
+  // "Switch to lite hero" affordance so users on slow networks / weak
+  // GPUs aren't stuck staring at the spinner.
+  useEffect(() => {
+    if (unityReady) return;
+    const t = window.setTimeout(() => setSlowLoad(true), SLOW_LOAD_MS);
+    return () => window.clearTimeout(t);
+  }, [unityReady]);
+
+  // Watch for SideWave's loader to disappear — that's the signal Unity is
+  // actually running, not just that our script tags loaded.
+  useEffect(() => {
+    if (!loaded) return;
+    const check = () => {
+      const loader = document.getElementById("loopLoader");
+      const overlay = document.getElementById("loopLoaderOverlay");
+      const loaderHidden =
+        !loader || loader.style.display === "none" || loader.offsetHeight === 0;
+      const overlayHidden =
+        !overlay || overlay.style.display === "none" || overlay.offsetHeight === 0;
+      if (loaderHidden && overlayHidden) {
+        setUnityReady(true);
+        return true;
+      }
+      return false;
+    };
+    if (check()) return;
+    const iv = window.setInterval(() => {
+      if (check()) window.clearInterval(iv);
+    }, 300);
+    return () => window.clearInterval(iv);
+  }, [loaded]);
+
+  const switchToLite = () => {
+    try {
+      window.localStorage.setItem(STORAGE_KEY, "light");
+    } catch {
+      /* ignore */
+    }
+    window.scrollTo({ top: 0, behavior: "auto" });
+    window.location.reload();
+  };
 
   useEffect(() => {
     document.body.classList.add("sidewave-active");
@@ -162,6 +219,17 @@ const SidewaveHero = ({ onSkip }: { onSkip?: () => void }) => {
           await loadScript(src);
         }
         if (!cancelled) setLoaded(true);
+
+        // Speed up SideWave's snap-scroll. The `var` declarations at the top
+        // of scroll-navigation.js bind to window, and RebuildPositions /
+        // goToIndex read them on every snap — so updating them here takes
+        // effect immediately without forking the vendor script.
+        const wg = window as unknown as {
+          defaultAutoScrollDuration?: number;
+          ignoreMs?: number;
+        };
+        wg.defaultAutoScrollDuration = SNAP_DURATION_MS;
+        wg.ignoreMs = SNAP_IGNORE_MS;
 
         // After scroll-navigation.js installs its TimelineLength listener,
         // attach our own so we run AFTER SetPageScroll (which it calls inside
@@ -205,6 +273,7 @@ const SidewaveHero = ({ onSkip }: { onSkip?: () => void }) => {
       if (unityContainer.offsetHeight < window.innerHeight * 2) {
         webContainer.style.opacity = "1";
         webContainer.style.visibility = "visible";
+        document.body.classList.remove("sidewave-past-hero");
         return;
       }
       const heroBottom = unityContainer.offsetTop + unityContainer.offsetHeight;
@@ -220,6 +289,13 @@ const SidewaveHero = ({ onSkip }: { onSkip?: () => void }) => {
       // scroll event doesn't fire after installHeroZone. pointer-events:none
       // (set in installHeroZone) is enough to make the canvas non-blocking.
       webContainer.style.visibility = "visible";
+
+      // Mirror the canvas fade onto the CTA overlay and Scroll Down pill —
+      // both are position:fixed and would otherwise stick to the viewport
+      // while the user scrolls the rest of the page. Use a body-level class
+      // so the rule is reusable from CSS without per-element JS.
+      const pastHero = opacity <= 0.05;
+      document.body.classList.toggle("sidewave-past-hero", pastHero);
     };
     window.addEventListener("scroll", onScrollFade, { passive: true });
     // Run once on mount so an initial state is set even before the first scroll.
@@ -248,39 +324,142 @@ const SidewaveHero = ({ onSkip }: { onSkip?: () => void }) => {
         w.enableAutoScroll = false;
       }
     };
-    // Re-engage SideWave's snap-scroll when the user wheels back up into the
-    // hero zone, so the experience is symmetric.
-    const onWheelReengage = (e: WheelEvent) => {
-      if (e.deltaY >= 0) return;
+    // Re-engage SideWave's snap-scroll ONLY when the user has scrolled all
+    // the way back to the very top. Re-engaging mid-scroll (anywhere inside
+    // the hero zone) makes snap-scroll seize the wheel/touch in the middle
+    // of the user's momentum, which feels like a jarring "blip".
+    //
+    // Critical: we watch the scroll EVENT for this, not the wheel/touch
+    // event. The wheel/touch event fires BEFORE the browser updates the
+    // scroll position, so checking scrollY inside a wheel handler reads the
+    // pre-scroll value — a fast wheel tick that crosses the threshold in
+    // one shot would never see scrollY ≤ threshold and snap would never
+    // re-engage. The scroll event fires after the position is committed,
+    // so it always catches the threshold crossing.
+    const REENGAGE_TOP_PX = 40;
+    const onScrollReengage = () => {
       const w = window as unknown as { enableAutoScroll?: boolean };
       if (w.enableAutoScroll !== false) return;
-      const unityContainer = document.getElementById("unityContainer");
-      if (!unityContainer) return;
-      const scrollable = unityContainer.offsetHeight - window.innerHeight;
-      if (scrollable <= 0) return;
-      // If we're scrolling up and back inside the hero zone, hand control
-      // back to SideWave's snap-scroll.
-      if (window.scrollY < scrollable * 0.95) {
+      if (window.scrollY <= REENGAGE_TOP_PX) {
         w.enableAutoScroll = true;
       }
     };
+    window.addEventListener("scroll", onScrollReengage, { passive: true });
     window.addEventListener("wheel", onWheelEscape, {
       passive: true,
       capture: true,
     });
-    window.addEventListener("wheel", onWheelReengage, {
+
+    // Mobile equivalent of the wheel escape. SideWave's touchmove handler
+    // calls preventDefault() unconditionally while enableAutoScroll is true,
+    // which traps mobile users inside the hero. We listen in the capture
+    // phase so we can flip enableAutoScroll=false BEFORE SideWave's
+    // bubble-phase touchmove runs — once it sees the flag, it bails out
+    // and the browser's native scroll takes over.
+    let touchStartY = 0;
+    const isAtLastWaypoint = () => {
+      const w = window as unknown as {
+        snapScroll?: {
+          indexFromScrollTop: () => number;
+          getPositions: () => number[];
+        };
+      };
+      const sn = w.snapScroll;
+      if (!sn) return false;
+      const positions = sn.getPositions();
+      if (!positions.length) return false;
+      return sn.indexFromScrollTop() === positions.length - 1;
+    };
+    const onTouchStartTrack = (e: TouchEvent) => {
+      if (e.touches && e.touches.length) {
+        touchStartY = e.touches[0].clientY;
+      }
+    };
+    const onTouchMoveEscape = (e: TouchEvent) => {
+      if (!e.touches || !e.touches.length) return;
+      const dy = touchStartY - e.touches[0].clientY; // >0 = scrolling down
+      const w = window as unknown as { enableAutoScroll?: boolean };
+      if (dy > 12 && w.enableAutoScroll !== false && isAtLastWaypoint()) {
+        w.enableAutoScroll = false;
+      }
+      // Re-engagement is handled by onScrollReengage on the scroll event,
+      // which sees the post-update scrollY and catches threshold crossings
+      // even when the gesture leaps past 0 in one fling.
+    };
+    window.addEventListener("touchstart", onTouchStartTrack, {
+      passive: true,
+      capture: true,
+    });
+    window.addEventListener("touchmove", onTouchMoveEscape, {
       passive: true,
       capture: true,
     });
 
+    // Idle "keep scrolling" hint: a subtle pulse on the Scroll Down pill
+    // that appears 750ms after the user stops scrolling, but only between
+    // waypoints (not at the first frame, not on the last waypoint, not
+    // past the hero). The snap-scroll is intentionally paced and users
+    // sometimes don't realise another scroll will reveal more.
+    let hintTimer: number | null = null;
+    // Short enough that the cue appears "instantly" once the snap settles.
+    // The snap-scroll fires continuous scroll events at ~60fps while
+    // animating, so any value >32ms reliably waits out the animation
+    // without lingering after it ends.
+    const HINT_IDLE_MS = 150;
+    const clearHint = () => {
+      document.body.classList.remove("sidewave-hint-active");
+      if (hintTimer !== null) {
+        window.clearTimeout(hintTimer);
+        hintTimer = null;
+      }
+    };
+    const scheduleHint = () => {
+      if (hintTimer !== null) window.clearTimeout(hintTimer);
+      hintTimer = window.setTimeout(() => {
+        // Don't nudge if the hero is already done, the user is at the very
+        // start (we want them to take in the opening beat first), or the
+        // canvas has faded out.
+        const w = window as unknown as {
+          snapScroll?: {
+            indexFromScrollTop: () => number;
+            getPositions: () => number[];
+          };
+        };
+        const sn = w.snapScroll;
+        if (!sn) return;
+        const positions = sn.getPositions();
+        if (!positions.length) return;
+        const idx = sn.indexFromScrollTop();
+        const last = positions.length - 1;
+        if (idx === 0 || idx === last) return;
+        if (document.body.classList.contains("sidewave-past-hero")) return;
+        document.body.classList.add("sidewave-hint-active");
+      }, HINT_IDLE_MS);
+    };
+    const onScrollForHint = () => {
+      // Any movement immediately retracts the hint and restarts the timer.
+      document.body.classList.remove("sidewave-hint-active");
+      scheduleHint();
+    };
+    window.addEventListener("scroll", onScrollForHint, { passive: true });
+    // Don't seed a hint on initial mount — wait for the user's first action.
+
     return () => {
       cancelled = true;
       document.body.classList.remove("sidewave-active");
+      document.body.classList.remove("sidewave-past-hero");
+      document.body.classList.remove("sidewave-hint-active");
+      clearHint();
       window.removeEventListener("scroll", onScrollFade);
+      window.removeEventListener("scroll", onScrollReengage);
+      window.removeEventListener("scroll", onScrollForHint);
       window.removeEventListener("wheel", onWheelEscape, {
         capture: true,
       } as unknown as EventListenerOptions);
-      window.removeEventListener("wheel", onWheelReengage, {
+      window.removeEventListener("touchstart", onTouchStartTrack, {
+        capture: true,
+      } as unknown as EventListenerOptions);
+      window.removeEventListener("touchmove", onTouchMoveEscape, {
         capture: true,
       } as unknown as EventListenerOptions);
 
@@ -358,6 +537,15 @@ const SidewaveHero = ({ onSkip }: { onSkip?: () => void }) => {
           style={{ width: 80, height: 80, marginBottom: 16 }}
         />
         <span>LOADING SIGNAL</span>
+        {slowLoad && !unityReady && (
+          <button
+            type="button"
+            onClick={switchToLite}
+            className="sidewave-lite-cta"
+          >
+            Taking too long? Use lite hero
+          </button>
+        )}
       </div>
 
       <div id="unityContainer" className="webgl-content unity-desktop">
@@ -372,14 +560,6 @@ const SidewaveHero = ({ onSkip }: { onSkip?: () => void }) => {
       </div>
 
       <section className="sidewave-chrome">
-        <a href="#origin" className="showAfterLoading">
-          <img
-            id="sidewaveLogo"
-            alt="Point Blank"
-            src={`${SIDEWAVE_BASE}/images/SW_Logo_W.svg`}
-          />
-        </a>
-
         <button
           type="button"
           onClick={handleSkip}
@@ -476,7 +656,7 @@ const SidewaveHero = ({ onSkip }: { onSkip?: () => void }) => {
             <li>OFFENSIVE</li>
             <li>DEFENSIVE</li>
           </ul>
-          <div className="originClickToDiscover">Click to explore</div>
+          <div className="originClickToDiscover">Scroll to explore</div>
         </div>
 
         <div
@@ -568,17 +748,11 @@ const SidewaveHero = ({ onSkip }: { onSkip?: () => void }) => {
       <div
         className={`sidewave-cta-overlay showAfterLoading ${loaded ? "is-ready" : ""}`}
       >
-        <a
-          href="#categories"
-          className="group inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-[#d02030] hover:bg-[#f52b43] text-white font-semibold rounded-lg transition-all shadow-[0_0_40px_rgba(208,32,48,0.45)]"
-        >
+        <a href="#categories" className="sidewave-cta-primary group">
           Explore Services
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
         </a>
-        <a
-          href="#contact"
-          className="inline-flex items-center justify-center gap-2 px-7 py-3.5 border border-white/30 text-white font-semibold rounded-lg hover:bg-white/10 backdrop-blur-sm transition-colors"
-        >
+        <a href="#contact" className="sidewave-cta-secondary">
           Book Review
         </a>
       </div>

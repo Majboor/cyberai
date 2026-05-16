@@ -58,7 +58,14 @@ $(document).ready(function ()
         const now = performance.now();
         const scrollY = window.visualViewport.pageTop || window.scrollY;
         const timeSinceLastScroll = now - lastScrollEventTime;
-        const scrollTolerance = 200;
+        // Anticipation buffer: how many px BEFORE the trigger an overlay
+        // starts showing. SideWave's default of 200 was tuned for a much
+        // taller scroll zone — with our compressed hero (HERO_HEIGHT_VH=2.4)
+        // it makes consecutive overlays (e.g. INCIDENT and the closing
+        // beat) overlap because the next overlay fades in while the
+        // previous is still in its visible range. 40px keeps a small
+        // fade-in lead without bleeding into adjacent waypoints.
+        const scrollTolerance = 40;
 
         var lastLateralAnchor;
         $(".anchor").each(function ()

@@ -39,7 +39,7 @@ const ProofStrip = () => {
 
   return (
     <section className="relative border-b border-white/10 bg-[#050202]">
-      <div className="mx-auto max-w-[1440px] px-6 md:px-12 lg:px-20 py-20 md:py-28">
+      <div className="mx-auto max-w-[1440px] px-6 md:px-12 lg:px-20 py-14 md:py-20">
         <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ff8a96] mb-8">
           The Loop
         </div>
