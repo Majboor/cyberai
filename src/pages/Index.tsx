@@ -1,18 +1,33 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
-import TickerSection from "@/components/TickerSection";
-import FeaturesGrid from "@/components/FeaturesGrid";
-import MetricsSection from "@/components/MetricsSection";
-import TestimonialsSection from "@/components/TestimonialsSection";
-import PricingSection from "@/components/PricingSection";
-import CTASection from "@/components/CTASection";
+import SidewaveHero from "@/components/SidewaveHero";
+import HeroModeToggle, { type HeroMode } from "@/components/HeroModeToggle";
+import TrustedBrands from "@/components/TrustedBrands";
+import ProofStrip from "@/components/ProofStrip";
+import ArchitectureSection from "@/components/ArchitectureSection";
+import PlatformPillars from "@/components/PlatformPillars";
+import OutcomesPanel from "@/components/OutcomesPanel";
+import ExcellenceCards from "@/components/ExcellenceCards";
+import TestimonialsCarousel from "@/components/TestimonialsCarousel";
+import CustomerChoice from "@/components/CustomerChoice";
+import UseCases from "@/components/UseCases";
+import PremiumCTA from "@/components/PremiumCTA";
 import Footer from "@/components/Footer";
-import BackgroundAnimation from "@/components/BackgroundAnimation";
+import Seo from "@/components/Seo";
+
+const STORAGE_KEY = "pointblank_hero_mode";
+
+const readMode = (): HeroMode => {
+  if (typeof window === "undefined") return "sidewave";
+  const stored = window.localStorage.getItem(STORAGE_KEY);
+  return stored === "light" ? "light" : "sidewave";
+};
 
 const Index = () => {
+  const [heroMode, setHeroMode] = useState<HeroMode>(readMode);
+
   useEffect(() => {
-    // Initialize scroll animations
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -29,47 +44,48 @@ const Index = () => {
       observer.observe(el);
     });
 
-    return () => {
-      observer.disconnect();
-    };
+    return () => observer.disconnect();
   }, []);
 
+  const handleModeChange = (next: HeroMode) => {
+    try {
+      window.localStorage.setItem(STORAGE_KEY, next);
+    } catch {
+      /* ignore */
+    }
+    // SideWave bootstraps a heavy stack of globals (jQuery plugins, Unity
+    // instance, scroll-driven RAF, body-level CSS). Tearing it down at
+    // runtime leaves orphan handlers calling dead references. A full
+    // reload resets the document cleanly — localStorage carries the choice.
+    window.scrollTo({ top: 0, behavior: "auto" });
+    window.location.reload();
+  };
+
   return (
-    <div className="bg-[#020202] text-white selection:bg-indigo-500/30 selection:text-indigo-100 overflow-x-hidden min-h-screen relative">
-      {/* Animated Background - positioned outside container like in HTML */}
-      <BackgroundAnimation />
+    <div className="bg-[#030303] text-white selection:bg-[#d02030]/40 selection:text-white overflow-x-hidden min-h-screen">
+      <Seo
+        title="PointBlank | AI Security, Compliance, and Incident Response"
+        description="PointBlank delivers AI-assisted penetration testing, security operations, compliance reviews, and incident response with expert verification."
+        path="/"
+      />
+      <Header />
+      <HeroModeToggle mode={heroMode} onToggle={handleModeChange} />
 
-      <div className="border-x border-white/[0.03] min-h-screen w-full max-w-[1440px] mx-auto relative z-10">
-        {/* Background Grid */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:12rem_24rem] pointer-events-none z-0"></div>
+      <main className="relative pt-[108px]">
+        {heroMode === "sidewave" ? <SidewaveHero /> : <HeroSection />}
+        <TrustedBrands />
+        <ProofStrip />
+        <ArchitectureSection />
+        <PlatformPillars />
+        <OutcomesPanel />
+        <ExcellenceCards />
+        <TestimonialsCarousel />
+        <CustomerChoice />
+        <UseCases />
+        <PremiumCTA />
+      </main>
 
-        {/* Beams */}
-        <div className="absolute inset-0 flex justify-between pointer-events-none z-0 px-6 md:px-12 lg:px-24">
-          <div className="relative w-px h-full bg-white/[0.03] overflow-hidden">
-            <div className="beam"></div>
-          </div>
-          <div className="relative w-px h-full bg-white/[0.03] hidden md:block overflow-hidden absolute left-1/2 -translate-x-1/2">
-            <div className="beam beam-delay-1"></div>
-          </div>
-          <div className="relative w-px h-full bg-white/[0.03] overflow-hidden">
-            <div className="beam beam-delay-2"></div>
-          </div>
-        </div>
-
-        <Header />
-
-        <main className="z-10 relative pt-20">
-          <HeroSection />
-          <TickerSection />
-          <FeaturesGrid />
-          <MetricsSection />
-          <TestimonialsSection />
-          <PricingSection />
-          <CTASection />
-        </main>
-
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 };

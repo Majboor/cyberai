@@ -1,73 +1,105 @@
-import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { useScrollAnimation } from "@/hooks/use-scroll-animation";
+import AnimatedOrb from "./AnimatedOrb";
 
 const HeroSection = () => {
-  const ref1 = useScrollAnimation();
-  const ref2 = useScrollAnimation();
-  const ref3 = useScrollAnimation();
-  const ref4 = useScrollAnimation();
-  const ref5 = useScrollAnimation();
-
   return (
-    <section className="md:px-12 lg:px-24 md:py-32 grid lg:grid-cols-12 gap-12 border-white/[0.03] border-b pt-24 pr-6 pb-24 pl-6 gap-x-12 gap-y-12 items-end">
-      <div className="lg:col-span-8 flex flex-col gap-8">
-        <div ref={ref1} className="animate-on-scroll">
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-sm border border-indigo-900/40 bg-indigo-900/10 text-[10px] font-medium tracking-widest text-indigo-200/80 uppercase">
-            <span className="w-1 h-1 rounded-full bg-indigo-400"></span>
-            Cybersecurity Firm
-          </span>
-        </div>
-        
-        <h1 ref={ref2} className="font-serif text-[2.75rem] sm:text-5xl lg:text-7xl leading-[0.95] text-white tracking-tight animate-on-scroll" style={{ animationDelay: '0.2s' }}>
-          <span className="block text-white/80 font-light italic">Deploy Strategic</span>
-          <span className="block font-light italic">AI Cybersecurity.</span>
-        </h1>
-        
-        <p ref={ref3} className="text-lg md:text-xl text-white/50 max-w-xl leading-relaxed font-light animate-on-scroll" style={{ animationDelay: '0.3s' }}>
-          We bridge the gap between emerging AI threats and enterprise defense. Architecting custom cybersecurity infrastructure for Saudi & Gulf enterprises.
-        </p>
-        
-        <div ref={ref4} className="flex flex-col sm:flex-row gap-5 pt-4 animate-on-scroll" style={{ animationDelay: '0.5s' }}>
-          <Link
-            to="/compliance-check"
-            className="group shadow-indigo-500/20 hover:shadow-indigo-500/40 transition-all duration-300 overflow-hidden font-medium text-indigo-950 bg-gradient-to-r from-[#e0e7ff] to-[#a5b4fc] rounded-sm pt-3 pr-8 pb-3 pl-8 relative shadow-lg"
-            style={{
-              boxShadow: '0 15px 33px -12px rgba(99,102,241,0.6), inset 0 4px 6.3px rgba(255,255,255,0.8)'
-            }}
-          >
-            <div className="group-hover:translate-y-0 transition-transform duration-300 bg-white/40 absolute top-0 right-0 bottom-0 left-0 translate-y-full"></div>
-            <span className="relative flex items-center gap-2 text-sm tracking-tight font-semibold">
-              Book Consultation
-              <ArrowRight className="w-4 h-4 stroke-[2]" />
-            </span>
-          </Link>
-          
-          <Link
-            to="/compliance-check"
-            className="group inline-flex overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_25px_rgba(255,255,255,0.1)] rounded-sm pt-[1px] pr-[1px] pb-[1px] pl-[1px] relative items-center justify-center"
-          >
-            <span className="absolute inset-[-100%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_0%,transparent_75%,#ffffff_100%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
-            <span className="absolute inset-0 rounded-sm bg-zinc-800 transition-opacity duration-300 group-hover:opacity-0"></span>
-            <span className="flex items-center justify-center gap-2 transition-colors duration-300 group-hover:text-white text-sm font-medium text-zinc-400 tracking-tight bg-gradient-to-b from-zinc-800 to-zinc-950 w-full h-full rounded-sm pt-3 pr-8 pb-3 pl-8 relative shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
-              <span className="relative z-10">View Framework</span>
-            </span>
-          </Link>
+    <section className="relative overflow-hidden border-b border-white/10 bg-[#030303]">
+      {/* Background ambient glows */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute -top-1/3 -right-1/4 w-[1100px] h-[1100px] rounded-full bg-[radial-gradient(circle,rgba(208,32,48,0.2),transparent_55%)] blur-3xl" />
+        <div className="absolute -bottom-1/3 -left-1/4 w-[900px] h-[900px] rounded-full bg-[radial-gradient(circle,rgba(102,0,8,0.55),transparent_60%)] blur-3xl" />
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[700px] rounded-full bg-[radial-gradient(circle,rgba(245,43,67,0.08),transparent_70%)] blur-3xl float-y" />
+      </div>
+
+      {/* Faint masked grid */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.18]"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(245,43,67,0.08) 1px,transparent 1px),linear-gradient(90deg,rgba(245,43,67,0.08) 1px,transparent 1px)",
+          backgroundSize: "72px 72px",
+          maskImage: "radial-gradient(ellipse at 65% 50%, #000 25%, transparent 75%)",
+          WebkitMaskImage: "radial-gradient(ellipse at 65% 50%, #000 25%, transparent 75%)",
+        }}
+      />
+
+      {/* Diagonal light streaks */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div
+          className="absolute top-0 left-1/3 w-px h-full opacity-30"
+          style={{
+            background:
+              "linear-gradient(180deg, transparent, rgba(255,90,102,0.5) 40%, rgba(255,90,102,0.5) 60%, transparent)",
+            transform: "rotate(8deg) translateY(-20%)",
+          }}
+        />
+        <div
+          className="absolute top-0 right-1/4 w-px h-full opacity-25"
+          style={{
+            background:
+              "linear-gradient(180deg, transparent, rgba(208,32,48,0.6) 45%, transparent)",
+            transform: "rotate(-6deg) translateY(-10%)",
+          }}
+        />
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-[1440px] px-6 md:px-12 lg:px-20 pt-16 pb-24 md:pt-20 md:pb-32 lg:pt-24 lg:pb-40">
+        <div className="grid gap-10 lg:gap-6 lg:grid-cols-12 items-center min-h-[640px]">
+          {/* Left: tight copy */}
+          <div className="lg:col-span-6 flex flex-col gap-7 fade-up relative z-20">
+            <div>
+              <span className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full border border-[#d02030]/40 bg-[#d02030]/10 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#ff8a96]">
+                <span className="relative inline-flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-[#f52b43] opacity-70 animate-ping" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-[#f52b43]" />
+                </span>
+                PointBlank
+              </span>
+            </div>
+
+            <h1 className="font-bold leading-[0.98] tracking-tight text-white text-6xl sm:text-7xl lg:text-[5.5rem] xl:text-[6.5rem]">
+              Security,
+              <br />
+              <span className="bg-gradient-to-r from-[#ffd4d9] via-[#ff8a96] to-[#d02030] bg-clip-text text-transparent">
+                redefined.
+              </span>
+            </h1>
+
+            <p className="max-w-md text-lg leading-relaxed text-white/65">
+              AI accelerates. Experts verify. Every finding shipped with proof.
+            </p>
+
+            <div className="flex flex-wrap gap-3 pt-1">
+              <a
+                href="#services"
+                className="group inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-[#d02030] hover:bg-[#f52b43] text-white font-semibold rounded-lg transition-all shadow-[0_0_40px_rgba(208,32,48,0.45)]"
+              >
+                Explore Services
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </a>
+              <a
+                href="#contact"
+                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 border border-white/15 hover:border-white/30 text-white font-semibold rounded-lg hover:bg-white/5 transition-colors glass-dark"
+              >
+                Book Review
+              </a>
+            </div>
+          </div>
+
+          {/* Right: hero orb (positioned to bleed beyond container slightly) */}
+          <div className="lg:col-span-6 relative flex items-center justify-center min-h-[420px] lg:min-h-[640px]">
+            <div className="relative">
+              <AnimatedOrb size={680} className="hidden xl:block" />
+              <AnimatedOrb size={580} className="hidden lg:block xl:hidden" />
+              <AnimatedOrb size={420} className="hidden md:block lg:hidden mx-auto" />
+              <AnimatedOrb size={320} className="block md:hidden mx-auto" />
+            </div>
+          </div>
         </div>
       </div>
-      
-      <div ref={ref5} className="lg:col-span-4 flex flex-col justify-end gap-12 animate-on-scroll" style={{ animationDelay: '0.7s' }}>
-        <div className="grid grid-cols-2 lg:grid-cols-1 gap-12 border-t border-white/[0.05] pt-8 lg:border-t-0 lg:pt-0">
-          <div>
-            <div className="text-[10px] uppercase tracking-[0.2em] text-white/40 mb-2 font-medium">Efficiency Gain</div>
-            <div className="text-5xl italic text-white font-serif">40<span className="not-italic align-top text-2xl font-light text-indigo-300/80 mx-1">%</span></div>
-          </div>
-          <div>
-            <div className="text-[10px] uppercase tracking-[0.2em] text-white/40 mb-2 font-medium">Implementation</div>
-            <div className="text-5xl italic text-white font-serif">6<span className="text-2xl text-white/40 not-italic align-top text-base uppercase tracking-widest ml-2">Weeks</span></div>
-          </div>
-        </div>
-      </div>
+
+      {/* Bottom thin red edge */}
+      <div className="absolute bottom-0 inset-x-0 h-px bg-[linear-gradient(90deg,transparent,rgba(245,43,67,0.7),transparent)]" />
     </section>
   );
 };

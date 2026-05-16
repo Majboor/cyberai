@@ -1,6 +1,6 @@
-# Saudi Cyber AI (by techrealm)
+# PointBlank
 
-Saudi Cyber AI is a cybersecurity initiative by **techrealm**. It provides an AI-powered website compliance workflow (region selection → laws → scan → report) with a modern landing page and a `/compliance-check` experience.
+PointBlank is a cybersecurity platform focused on AI-assisted security reviews, compliance workflows, and incident response. It provides a website compliance workflow (region selection → laws → scan → report) with a branded landing page and a `/compliance-check` experience.
 
 ## Local development
 
@@ -25,4 +25,3 @@ VITE_API_BASE_URL=https://cyberaiapi.digitalsoftwaremarket.online
 
 - Vite + React + TypeScript
 - Tailwind CSS + shadcn/ui
-

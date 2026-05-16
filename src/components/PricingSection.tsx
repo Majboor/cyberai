@@ -48,28 +48,28 @@ const PricingSection = () => {
   const ref = useScrollAnimation();
 
   return (
-    <section className="lg:py-32 border-white/[0.03] overflow-hidden bg-[#050505] border-b pt-24 pb-24 relative">
+    <section id="pricing" className="lg:py-32 border-[#d02030]/15 overflow-hidden bg-[#030303] border-b pt-24 pb-24 relative">
       {/* Vertical Background Lines */}
       <div className="absolute inset-0 max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24 pointer-events-none flex justify-between z-0">
-        <div className="w-px h-full bg-white/[0.03]"></div>
-        <div className="hidden md:block w-px h-full bg-white/[0.03] absolute left-1/2 -translate-x-1/2"></div>
-        <div className="hidden lg:block w-px h-full bg-white/[0.03] absolute left-[33.33%]"></div>
-        <div className="hidden lg:block w-px h-full bg-white/[0.03] absolute left-[66.66%]"></div>
-        <div className="w-px h-full bg-white/[0.03]"></div>
+        <div className="w-px h-full bg-[#d02030]/10"></div>
+        <div className="hidden md:block w-px h-full bg-[#d02030]/10 absolute left-1/2 -translate-x-1/2"></div>
+        <div className="hidden lg:block w-px h-full bg-[#d02030]/10 absolute left-[33.33%]"></div>
+        <div className="hidden lg:block w-px h-full bg-[#d02030]/10 absolute left-[66.66%]"></div>
+        <div className="w-px h-full bg-[#d02030]/10"></div>
       </div>
 
       <div className="z-10 md:px-12 lg:px-24 max-w-[1440px] mr-auto ml-auto pr-6 pl-6 relative">
         {/* Header */}
         <div ref={ref} className="mb-20 text-center animate-on-scroll">
           <h2 className="text-4xl md:text-5xl lg:text-6xl text-white font-serif italic tracking-tight font-light mb-8">
-            Big or Small? <span className="text-white/40 font-serif not-italic">We have a plan.</span>
+            Choose the <span className="text-[#f52b43] font-serif not-italic">closure model.</span>
           </h2>
           
           {/* Toggle */}
-          <div className="inline-flex items-center gap-4 p-1 rounded-full border border-white/10 bg-white/[0.02] backdrop-blur-sm">
+          <div className="inline-flex items-center gap-4 p-1 rounded-lg border border-[#d02030]/20 bg-[#d02030]/8 backdrop-blur-sm">
             <span className="text-[10px] font-medium tracking-widest text-white/60 uppercase pl-4">Monthly</span>
-            <button className="relative w-12 h-6 rounded-full bg-zinc-800 border border-white/5 transition-colors focus:outline-none">
-              <span className="absolute left-1 top-1 w-4 h-4 rounded-full bg-white shadow-sm transition-transform duration-300"></span>
+            <button className="relative w-12 h-6 rounded-full bg-[#260508] border border-[#d02030]/30 transition-colors focus:outline-none">
+              <span className="absolute left-1 top-1 w-4 h-4 rounded-full bg-[#f52b43] shadow-sm transition-transform duration-300"></span>
             </button>
             <span className="text-[10px] font-medium tracking-widest text-white/40 uppercase pr-4">Annual</span>
           </div>
@@ -80,7 +80,7 @@ const PricingSection = () => {
           {plans.map((plan, idx) => (
             <SpotlightCard
               key={idx}
-              className={`p-8 flex flex-col h-full relative overflow-hidden animate-on-scroll ${plan.pro ? 'border border-white/10 bg-white/[0.02]' : ''}`}
+              className={`p-8 flex flex-col h-full relative overflow-hidden animate-on-scroll ${plan.pro ? 'border border-[#d02030]/35 bg-[#d02030]/8' : ''}`}
               style={{ animationDelay: delays[idx] } as React.CSSProperties}
             >
               <div className="absolute top-0 right-0 p-6 opacity-50 group-hover:opacity-100 transition-opacity">
@@ -97,7 +97,7 @@ const PricingSection = () => {
                 <div className="flex items-center gap-3 mb-4">
                   <div className="text-sm font-semibold text-white uppercase tracking-[0.2em]">{plan.title}</div>
                   {plan.pro && (
-                    <span className="px-2 py-0.5 bg-white text-black text-[9px] font-bold uppercase tracking-wider rounded-sm">Pro</span>
+                    <span className="px-2 py-0.5 bg-[#d02030] text-white text-[9px] font-bold uppercase tracking-wider rounded-sm">Pro</span>
                   )}
                 </div>
                 <p className="text-[13px] text-white/50 leading-relaxed min-h-[60px]">
@@ -111,7 +111,7 @@ const PricingSection = () => {
                   {plan.features.map((feature, fIdx) => (
                     <li key={fIdx} className="flex items-center gap-3 text-[13px] text-white/70">
                       {feature.included ? (
-                        <Check className="text-white w-4 h-4" />
+                        <Check className="text-[#ff5a66] w-4 h-4" />
                       ) : (
                         <X className="text-white/20 w-4 h-4" />
                       )}
@@ -123,7 +123,7 @@ const PricingSection = () => {
                   <span className="text-[10px] font-mono text-zinc-600">{plan.number}</span>
                   <Link 
                     to="/compliance-check"
-                    className="text-[11px] uppercase tracking-widest text-white/60 hover:text-white transition-colors border-b border-transparent hover:border-white/40 pb-0.5"
+                    className="text-[11px] uppercase tracking-widest text-[#ff5a66]/80 hover:text-[#ff5a66] transition-colors border-b border-transparent hover:border-[#ff5a66]/50 pb-0.5"
                   >
                     Subscribe
                   </Link>
@@ -138,4 +138,3 @@ const PricingSection = () => {
 };
 
 export default PricingSection;
-

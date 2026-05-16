@@ -1,62 +1,11 @@
-import { useEffect } from 'react';
-
 const BackgroundAnimation = () => {
-  useEffect(() => {
-    // Ensure UnicornStudio is initialized after script loads
-    // Script is loaded in index.html head, so we just need to wait for it
-    const initUnicornStudio = () => {
-      if (window.UnicornStudio && typeof window.UnicornStudio.init === 'function' && !window.UnicornStudio.isInitialized) {
-        try {
-          window.UnicornStudio.init();
-          window.UnicornStudio.isInitialized = true;
-        } catch (error) {
-          console.error('Failed to initialize UnicornStudio:', error);
-        }
-      }
-    };
-
-    // Check immediately if already loaded
-    if (window.UnicornStudio && typeof window.UnicornStudio.init === 'function') {
-      initUnicornStudio();
-    } else {
-      // Wait for script to load (script is in index.html head)
-      let checkCount = 0;
-      const maxChecks = 50; // 5 seconds max
-      const checkInterval = setInterval(() => {
-        checkCount++;
-        if (window.UnicornStudio && typeof window.UnicornStudio.init === 'function') {
-          clearInterval(checkInterval);
-          initUnicornStudio();
-        } else if (checkCount >= maxChecks) {
-          clearInterval(checkInterval);
-          console.warn('UnicornStudio script did not load in time');
-        }
-      }, 100);
-
-      return () => clearInterval(checkInterval);
-    }
-  }, []);
-
-  // Match the exact HTML structure from line 111-116
-  // The background component has nested divs with specific classes
   return (
-    <div
-      className="aura-background-component fixed inset-0 z-0 pointer-events-none"
-      data-alpha-mask="80"
-      style={{
-        maskImage: 'linear-gradient(180deg, transparent, black 0%, black 80%, transparent)',
-        WebkitMaskImage: 'linear-gradient(180deg, transparent, black 0%, black 80%, transparent)'
-      }}
-    >
-      <div className="aura-background-component top-0 w-full absolute h-[1200px]">
-        <div
-          data-us-project="guA2nIvok3TuYtPyn8zX"
-          className="absolute w-full h-full left-0 top-0"
-        />
-      </div>
+    <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-[#030303]">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_18%,rgba(245,43,67,0.18),transparent_34%),radial-gradient(circle_at_18%_70%,rgba(98,11,18,0.34),transparent_38%)]" />
+      <div className="absolute inset-0 opacity-[0.18] bg-[linear-gradient(rgba(245,43,67,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(245,43,67,0.1)_1px,transparent_1px)] bg-[size:88px_88px]" />
+      <div className="absolute inset-x-0 top-0 h-[560px] bg-[linear-gradient(180deg,rgba(208,32,48,0.16),transparent_70%)]" />
     </div>
   );
 };
 
 export default BackgroundAnimation;
-

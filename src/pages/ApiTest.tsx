@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
 import { useToast } from "@/components/ui/use-toast"
-import { 
+import {
   Globe, 
   Play, 
   Copy, 
@@ -25,6 +25,9 @@ import {
   Info
 } from "lucide-react"
 import { API_BASE_URL } from "@/lib/api-base";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import Seo from "@/components/Seo";
 
 const ApiTest = () => {
   const { toast } = useToast()
@@ -549,7 +552,15 @@ const ApiTest = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background pt-20 pb-10">
+    <div className="min-h-screen bg-background">
+      <Seo
+        title="Compliance API Test | PointBlank"
+        description="Interactive PointBlank API test interface for regions, sites, and compliance endpoints."
+        path="/api-test"
+        noIndex
+      />
+      <Header />
+      <main className="pt-[128px] pb-10">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-12">
           <Badge variant="secondary" className="px-4 py-2 text-sm bg-cyber-teal/20 text-cyber-teal border-cyber-teal/50 mb-6">
@@ -558,11 +569,11 @@ const ApiTest = () => {
           </Badge>
           
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            Cyber AI Compliance API Test
+            PointBlank Compliance API Test
           </h1>
           
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-            Interactive testing interface for the Cyber AI Compliance API. Test all endpoints with real-time responses.
+            Interactive testing interface for the PointBlank compliance API. Test all endpoints with real-time responses.
           </p>
 
           <div className="bg-gradient-to-r from-cyber-purple/10 to-cyber-teal/10 rounded-2xl p-6 border border-cyber-purple/20">
@@ -625,6 +636,8 @@ const ApiTest = () => {
           </div>
         </div>
       </div>
+      </main>
+      <Footer />
     </div>
   )
 }

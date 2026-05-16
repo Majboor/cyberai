@@ -1,136 +1,147 @@
 import { Link } from "react-router-dom";
-import { Cpu, ArrowUpRight, Facebook, Linkedin, Youtube, Instagram } from "lucide-react";
+import { Linkedin, Twitter, Github, Mail, MapPin } from "lucide-react";
+import PointBlankLogo from "@/components/PointBlankLogo";
+
+const footerColumns = [
+  {
+    title: "Platform",
+    links: [
+      { text: "All Services", href: "/#services" },
+      { text: "Operating Model", href: "/#architecture" },
+      { text: "Service Categories", href: "/#categories" },
+      { text: "Use Cases", href: "/#use-cases" },
+    ],
+  },
+  {
+    title: "Top Services",
+    links: [
+      { text: "Penetration Testing", href: "/services/penetration-testing" },
+      { text: "Vulnerability Assessment", href: "/services/vulnerability-assessment" },
+      { text: "Security Operations Center", href: "/services/security-operations-center" },
+      { text: "Data Breach Response", href: "/services/data-breach-response" },
+      { text: "Virtual CISO", href: "/services/virtual-ciso" },
+    ],
+  },
+  {
+    title: "Resources",
+    links: [
+      { text: "Blog", href: "#" },
+      { text: "Case Studies", href: "#" },
+      { text: "Compliance Mapping", href: "#" },
+      { text: "Threat Briefings", href: "#" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { text: "About PointBlank", href: "#" },
+      { text: "Operating Model", href: "/#architecture" },
+      { text: "Careers", href: "#" },
+      { text: "Contact Sales", href: "#contact" },
+    ],
+  },
+];
+
+const socials = [
+  { Icon: Linkedin, label: "LinkedIn", href: "#" },
+  { Icon: Twitter, label: "Twitter", href: "#" },
+  { Icon: Github, label: "GitHub", href: "#" },
+];
 
 const Footer = () => {
-  const socialLinks = [
-    { icon: Facebook, label: "Facebook", href: "https://www.facebook.com/DigitalSoftwareMarket", color: "group-hover:text-[#1877F2]" },
-    { icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com/company/digitalsoftwaremarket", color: "group-hover:text-[#0A66C2]" },
-    { icon: Instagram, label: "Instagram", href: "https://www.instagram.com/digitalsoftwaremarket/", color: "group-hover:text-[#E4405F]" },
-    { icon: Youtube, label: "YouTube", href: "https://www.youtube.com/@digitalsoftwaremarket", color: "group-hover:text-[#FF0000]" },
-  ];
-
-  const footerColumns = [
-    {
-      number: "01",
-      title: "About Us",
-      links: [
-        { text: "Pricing Methodology", href: "#" },
-        { text: "Contact Sales", href: "#" },
-        { text: "Documentation", href: "#" },
-        { text: "Latest News", href: "#" },
-      ]
-    },
-    {
-      number: "02",
-      title: "Support",
-      links: [
-        { text: "Help Center", href: "#" },
-        { text: "API Status", href: "#" },
-        { text: "Report Issue", href: "#" },
-        { text: "Security Audit", href: "#" },
-      ]
-    },
-    {
-      number: "03",
-      title: "Community",
-      links: [
-        { text: "Developer Forum", href: "#" },
-        { text: "Events & Hackathons", href: "#" },
-        { text: "Partner Program", href: "#" },
-        { text: "Careers", href: "#" },
-      ]
-    },
-    {
-      number: "04",
-      title: "Legal",
-      links: [
-        { text: "Investor Relations", href: "#" },
-        { text: "Terms of Service", href: "#" },
-        { text: "Privacy Policy", href: "#" },
-        { text: "Cookie Settings", href: "#" },
-      ]
-    },
-  ];
-
   return (
-    <footer className="relative bg-[#050505] border-t border-white/[0.03] overflow-hidden">
-      {/* Vertical Background Lines */}
-      <div className="absolute inset-0 max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24 pointer-events-none flex justify-between z-0">
-        <div className="w-px h-full bg-white/[0.03]"></div>
-        <div className="hidden lg:block w-px h-full bg-white/[0.03] absolute left-[25%]"></div>
-        <div className="hidden md:block w-px h-full bg-white/[0.03] absolute left-1/2 -translate-x-1/2"></div>
-        <div className="hidden lg:block w-px h-full bg-white/[0.03] absolute left-[75%]"></div>
-        <div className="w-px h-full bg-white/[0.03]"></div>
-      </div>
+    <footer className="relative border-t border-white/10 bg-[#020202] overflow-hidden">
+      {/* Top accent line */}
+      <div className="absolute top-0 inset-x-0 h-px bg-[linear-gradient(90deg,transparent,rgba(208,32,48,0.55),transparent)]" />
 
-      {/* Top Highlight Gradient */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-px bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent shadow-[0_0_15px_rgba(99,102,241,0.5)] z-20"></div>
+      {/* Faint ambient glow */}
+      <div className="absolute bottom-[-30%] left-1/2 -translate-x-1/2 w-[900px] h-[500px] rounded-full bg-[radial-gradient(ellipse,rgba(208,32,48,0.12),transparent_60%)] blur-3xl pointer-events-none" />
 
-      <div className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24">
-        {/* Social Connections Row */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-b border-white/[0.03]">
-          {socialLinks.map((social, idx) => {
-            const Icon = social.icon;
-            return (
-              <a
-                key={idx}
-                href={social.href}
-                className={`group relative py-8 lg:pr-8 flex items-center justify-between border-b md:border-b-0 ${idx < 3 ? 'md:border-r lg:border-r' : ''} border-white/[0.03] hover:bg-white/[0.02] transition-all duration-500 ${idx === 1 ? 'lg:px-8' : ''} ${idx === 3 ? 'lg:pl-8' : ''}`}
-              >
-                <div className="flex items-center gap-4">
-                  <Icon className={`text-white/40 ${social.color} transition-colors duration-300 w-5 h-5`} />
-                  <span className="text-sm font-medium text-white/60 group-hover:text-white transition-colors">{social.label}</span>
-                </div>
-                <div className="w-8 h-8 rounded-full border border-white/5 flex items-center justify-center bg-white/[0.02] group-hover:bg-white/10 transition-colors">
-                  <ArrowUpRight className="text-white/40 group-hover:text-white transition-colors w-4 h-4" />
-                </div>
-              </a>
-            );
-          })}
-        </div>
+      <div className="relative mx-auto max-w-[1440px] px-6 md:px-12 lg:px-20 pt-20 pb-12">
+        {/* Top: brand + columns */}
+        <div className="grid gap-12 lg:grid-cols-12 mb-16">
+          {/* Brand block */}
+          <div className="lg:col-span-4">
+            <Link to="/" className="inline-flex items-center gap-3 mb-6">
+              <PointBlankLogo subtitle="Offense, Defense, Response" />
+            </Link>
 
-        {/* Footer Links Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 pt-16 pb-24">
-          {footerColumns.map((column, idx) => (
-            <div
-              key={idx}
-              className={`flex flex-col gap-8 ${idx === 0 ? 'lg:pr-8' : idx === 1 ? 'md:pl-8 lg:px-8' : idx === 2 ? 'lg:px-8' : 'md:pl-8 lg:pl-8'} ${idx < 2 ? 'border-r-0 md:border-r border-white/[0.03] border-b md:border-b-0' : idx === 2 ? 'border-r-0 md:border-r border-white/[0.03] border-b md:border-b-0 py-12 md:py-0' : 'py-12 md:py-0'}`}
-            >
-              <div className="flex flex-col gap-2">
-                <span className="font-mono text-[10px] text-zinc-600 tracking-widest">{column.number}</span>
-                <h4 className="text-xs font-semibold tracking-[0.2em] text-white uppercase">{column.title}</h4>
+            <p className="text-[14px] leading-relaxed text-white/55 max-w-sm mb-6">
+              PointBlank delivers AI-assisted offensive security, compliance reviews, incident response, and analyst-backed remediation guidance.
+            </p>
+
+            <div className="space-y-3 text-[13px] text-white/55">
+              <div className="flex items-center gap-3">
+                <Mail className="h-4 w-4 text-[#ff8a96]" />
+                <span>hello@pointblank.security</span>
               </div>
-              <ul className="flex flex-col gap-4">
-                {column.links.map((link, linkIdx) => (
-                  <li key={linkIdx}>
-                    <a href={link.href} className="text-[13px] text-white/40 hover:text-white transition-colors duration-300">
-                      {link.text}
-                    </a>
-                  </li>
-                ))}
-              </ul>
+              <div className="flex items-center gap-3">
+                <MapPin className="h-4 w-4 text-[#ff8a96]" />
+                <span>Riyadh, Saudi Arabia</span>
+              </div>
             </div>
-          ))}
-        </div>
 
-        {/* Bottom Copyright */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6 py-12 border-t border-white/[0.03]">
-          <div className="flex items-center gap-3">
-            <div className="w-6 h-6 bg-white/[0.05] rounded-sm flex items-center justify-center">
-              <Cpu className="w-3 h-3 text-white/60" />
-            </div>
-            <div className="flex flex-col leading-tight">
-              <span className="text-[11px] text-white/30">© 2025 SAUDI CYBER AI</span>
-              <span className="text-[11px] text-white/30">
-                A cybersecurity initiative by <span className="text-white/50">techrealm</span>
-              </span>
+            <div className="mt-6 flex items-center gap-3">
+              {socials.map(({ Icon, label, href }) => (
+                <a
+                  key={label}
+                  href={href}
+                  aria-label={label}
+                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 text-white/65 hover:border-[#d02030]/40 hover:bg-[#d02030]/10 hover:text-white transition-colors"
+                >
+                  <Icon className="h-4 w-4" />
+                </a>
+              ))}
             </div>
           </div>
+
+          {/* Link columns */}
+          <div className="lg:col-span-8 grid gap-10 grid-cols-2 md:grid-cols-4">
+            {footerColumns.map((col) => (
+              <div key={col.title}>
+                <h4 className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/45 mb-4">
+                  {col.title}
+                </h4>
+                <ul className="space-y-2.5">
+                  {col.links.map((l) => (
+                    <li key={l.text}>
+                      <a
+                        href={l.href}
+                        className="text-[13px] text-white/70 hover:text-white transition-colors"
+                      >
+                        {l.text}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Status row */}
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 py-6 border-y border-white/10">
+          <div className="flex items-center gap-3 text-[12px]">
+            <span className="relative inline-flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60 animate-ping" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+            </span>
+            <span className="font-mono uppercase tracking-[0.22em] text-emerald-300/80">
+              SOC Operations Online
+            </span>
+          </div>
+          <div className="text-[12px] font-mono uppercase tracking-[0.22em] text-white/40">
+            Build · v1.0 · PointBlank
+          </div>
+        </div>
+
+        {/* Bottom */}
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pt-6 text-[12px] text-white/45">
+          <p>© 2025 PointBlank. All rights reserved.</p>
           <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
-              <span className="text-[11px] text-emerald-500/80 font-mono">ALL SYSTEMS OPERATIONAL</span>
-            </div>
+            <a href="#" className="hover:text-white transition-colors">Privacy</a>
+            <a href="#" className="hover:text-white transition-colors">Terms</a>
+            <a href="#" className="hover:text-white transition-colors">Security</a>
           </div>
         </div>
       </div>
