@@ -171,18 +171,24 @@ const SidewaveHero = ({ onSkip }: { onSkip?: () => void }) => {
     return () => window.clearTimeout(t);
   }, [unityReady]);
 
-  // Watch for SideWave's loader to disappear — that's the signal Unity is
-  // actually running, not just that our script tags loaded.
+  // Treat the hero as "ready" only when SideWave has rebuilt its snap
+  // scrollPositions[] — that's the moment the wheel/touch handlers can
+  // actually advance through waypoints. Before that, even if the loader
+  // gif has disappeared, scrollPositions is empty and the first 2-3
+  // wheel ticks get swallowed by snap-scroll's empty next()/prev().
   useEffect(() => {
     if (!loaded) return;
+    let cancelled = false;
     const check = () => {
-      const loader = document.getElementById("loopLoader");
-      const overlay = document.getElementById("loopLoaderOverlay");
-      const loaderHidden =
-        !loader || loader.style.display === "none" || loader.offsetHeight === 0;
-      const overlayHidden =
-        !overlay || overlay.style.display === "none" || overlay.offsetHeight === 0;
-      if (loaderHidden && overlayHidden) {
+      if (cancelled) return true;
+      const w = window as unknown as {
+        snapScroll?: { getPositions: () => number[] };
+      };
+      const positions = w.snapScroll?.getPositions?.() ?? [];
+      // Two-position minimum: position 0 is added unconditionally; a
+      // populated rest means CalculateDataTrigger ran against a real
+      // Unity timeline length.
+      if (positions.length > 1) {
         setUnityReady(true);
         return true;
       }
@@ -191,9 +197,27 @@ const SidewaveHero = ({ onSkip }: { onSkip?: () => void }) => {
     if (check()) return;
     const iv = window.setInterval(() => {
       if (check()) window.clearInterval(iv);
-    }, 300);
-    return () => window.clearInterval(iv);
+    }, 120);
+    return () => {
+      cancelled = true;
+      window.clearInterval(iv);
+    };
   }, [loaded]);
+
+  // Lock native scroll while the hero is initialising. SideWave's
+  // html.no-scroll rule disables overflow AND makes its wheel/touch
+  // handlers return early, so wheel ticks during this window are
+  // dropped instead of being captured-but-ignored.
+  useEffect(() => {
+    if (unityReady) {
+      document.documentElement.classList.remove("no-scroll");
+      return;
+    }
+    document.documentElement.classList.add("no-scroll");
+    return () => {
+      document.documentElement.classList.remove("no-scroll");
+    };
+  }, [unityReady]);
 
   const switchToLite = () => {
     try {
@@ -527,6 +551,32 @@ const SidewaveHero = ({ onSkip }: { onSkip?: () => void }) => {
         </div>
       )}
 
+      {/* React-owned gate that masks the canvas + any of SideWave's own
+          loader UIs until snapScroll is actually populated. SideWave hides
+          its loader as soon as the Unity binary downloads, which leaves a
+          4-5s blank window before the timeline initialises — this overlay
+          covers that. */}
+      {!unityReady && !error && (
+        <div className="sidewave-gate">
+          <img
+            src={`${SIDEWAVE_BASE}/images/Mobius100.gif`}
+            alt=""
+            className="sidewave-gate-spinner"
+          />
+          <span className="sidewave-gate-label">Preparing the experience</span>
+          <button
+            type="button"
+            onClick={switchToLite}
+            className={`sidewave-lite-cta ${slowLoad ? "is-urgent" : ""}`}
+          >
+            {slowLoad ? "Taking too long? Use lite hero" : "Quick load → lite hero"}
+          </button>
+          <span className="sidewave-gate-sub">
+            Skips the immersive 3D hero for a faster page.
+          </span>
+        </div>
+      )}
+
       <div id="loopLoader">
         <img src={`${SIDEWAVE_BASE}/images/Mobius100.gif`} id="sphereGif" alt="" />
       </div>
@@ -537,15 +587,6 @@ const SidewaveHero = ({ onSkip }: { onSkip?: () => void }) => {
           style={{ width: 80, height: 80, marginBottom: 16 }}
         />
         <span>LOADING SIGNAL</span>
-        {slowLoad && !unityReady && (
-          <button
-            type="button"
-            onClick={switchToLite}
-            className="sidewave-lite-cta"
-          >
-            Taking too long? Use lite hero
-          </button>
-        )}
       </div>
 
       <div id="unityContainer" className="webgl-content unity-desktop">

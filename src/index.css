@@ -572,26 +572,81 @@ body.sidewave-active.sidewave-hint-active
    default but make sure no later rule clips. */
 body.sidewave-active #spaceNavigation.scrollToDiscover { overflow: visible; }
 
-/* "Switch to lite hero" CTA, surfaced inside the loader overlay only when
-   the Unity bootstrap takes longer than SLOW_LOAD_MS. */
+/* Full-screen gate that masks the canvas while SideWave is initialising.
+   Sits above the canvas but below the header so the user can still see
+   their context. Covers the 4-5s window between binary download (when
+   SideWave hides its own loader) and Timeline init (when scrollPositions
+   becomes populated and snap-scroll actually works). */
+.sidewave-gate {
+  position: fixed;
+  inset: 0;
+  /* Above the canvas (z 0) and SideWave's chrome (z 30-35) but below
+     the site Header (z 50) and HeroModeToggle (z 60) — the user can
+     still see brand context and switch to the light hero. */
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #030303;
+  color: #fff;
+  pointer-events: auto;
+}
+.sidewave-gate-spinner {
+  width: 96px;
+  height: 96px;
+  margin-bottom: 18px;
+}
+.sidewave-gate-label {
+  font-family: 'Fraktion Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 20px;
+}
+.sidewave-gate-sub {
+  margin-top: 10px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.02em;
+  text-align: center;
+  max-width: 240px;
+  line-height: 1.45;
+}
+
+/* "Quick load" / "Use lite hero" CTA shown inside the gate. The base
+   style is a calm outline so it doesn't fight the spinner for attention;
+   the .is-urgent modifier kicks in after SLOW_LOAD_MS to escalate. */
 .sidewave-lite-cta {
   margin-top: 20px;
   padding: 10px 22px;
   border-radius: 999px;
-  background: #d02030;
-  color: #fff;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: rgba(255, 255, 255, 0.92);
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  border: none;
   cursor: pointer;
-  box-shadow: 0 10px 28px -8px rgba(208, 32, 48, 0.55);
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 .sidewave-lite-cta:hover {
-  background: #f52b43;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
   transform: translateY(-1px);
+}
+.sidewave-lite-cta.is-urgent {
+  background: #d02030;
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 10px 28px -8px rgba(208, 32, 48, 0.55);
+}
+.sidewave-lite-cta.is-urgent:hover {
+  background: #f52b43;
 }
 
 /* Tiny copy below the Scroll Down button hinting at the natural exit. */

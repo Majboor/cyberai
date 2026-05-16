@@ -24,6 +24,14 @@ var freeScrolling = false;
 var freeFrom = -1;
 var freeUntil = -1;
 
+// One-slot input queue. While isThrottled is true (snap-scroll mid-anim),
+// the wheel/touch handlers used to drop user input on the floor, which
+// felt like "I have to scroll 5 times before anything happens". We now
+// stash the latest direction here and replay it when the throttle clears.
+// Newer inputs overwrite older ones so the user always gets their most
+// recent intent, not a stale one.
+var pendingDirection = 0;
+
 // Cache DOM elements
 var $unityContainer;
 var $webContainer;
@@ -370,6 +378,16 @@ $(function ()
         setTimeout(function ()
         {
             isThrottled = false;
+            // Replay the most recent queued input the user submitted while
+            // we were throttled. Done after the timeout (not before) so the
+            // recursive call sees isThrottled=false and goes through.
+            if (pendingDirection !== 0)
+            {
+                var dir = pendingDirection;
+                pendingDirection = 0;
+                if (dir > 0) next();
+                else if (dir < 0) prev();
+            }
         }, pauseScrollFor + useDuration + ignoreMs);
     }
 
@@ -489,7 +507,15 @@ $(function ()
         e.preventDefault();
 
         if (isThrottled)
+        {
+            // Don't drop the user's intent — queue it so the moment the
+            // snap throttle clears, we honour the most recent wheel
+            // direction. This is what fixes the "2-5 scrolls to do
+            // anything" feeling when the user wheels rapidly.
+            if (e.deltaY > 0) pendingDirection = 1;
+            else if (e.deltaY < 0) pendingDirection = -1;
             return;
+        }
         if (e.deltaY > 0)
             next();
         else if (e.deltaY < 0)
@@ -508,8 +534,9 @@ $(function ()
         }
         if (!window.enableAutoScroll)
             return;
-        if (isThrottled)
-            return;
+        // Always record the start, even during throttle, so touchend can
+        // queue the user's intent rather than dropping the whole swipe on
+        // the floor.
         if (e.touches && e.touches.length)
         {
             touchStartY = e.touches[0].clientY;
@@ -561,15 +588,19 @@ $(function ()
             return;
         if (!window.enableAutoScroll)
             return;
-        if (isThrottled)
-            return;
         if (touchStartY === null)
             return;
         var endY = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientY : touchStartY;
         var delta = touchStartY - endY;
         if (Math.abs(delta) > touchThreshold)
         {
-            if (delta > 0)
+            if (isThrottled)
+            {
+                // Queue the swipe instead of dropping it. The throttle's
+                // own setTimeout will replay this once it clears.
+                pendingDirection = delta > 0 ? 1 : -1;
+            }
+            else if (delta > 0)
                 next();
             else
                 prev();
